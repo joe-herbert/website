@@ -1,2 +1,2 @@
-# website
-New version of joeherbert.dev
+# Website
+New version of https://joeherbert.dev
