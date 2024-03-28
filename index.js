@@ -1,3 +1,5 @@
+let currentPage = "landing";
+
 document.addEventListener("DOMContentLoaded", () => {
     particlesJS.load("particles", "assets/particles.json", function () {
         console.log("callback - particles.js config loaded");
@@ -7,13 +9,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById("age").innerHTML = getAge();
 
+    let tintColor = localStorage.getItem("tint");
+    if (tintColor) {
+        document.querySelector(":root").style.setProperty("--tint", tintColor);
+    } else {
+        tintColor = "#753ed6";
+        localStorage.setItem("tint", tintColor);
+        document.querySelector(":root").style.setProperty("--tint", tintColor);
+    }
+    let tint = document.getElementById("tint");
+    tint.value = tintColor;
+    tint.addEventListener("change", (event) => {
+        document.querySelector(":root").style.setProperty("--tint", event.currentTarget.value);
+        localStorage.setItem("tint", event.currentTarget.value);
+    });
+
     document.getElementById("photo").addEventListener("click", () => {
         window.scrollTo({
             top: 0,
             left: pageWidth,
             behavior: "smooth",
         });
-        document.getElementById("galleryPage").classList.add("focusedPage");
+        currentPage = "photo";
     });
     document.getElementById("dev").addEventListener("click", () => {
         window.scrollTo({
@@ -21,6 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
             left: 0,
             behavior: "smooth",
         });
+        currentPage = "dev";
     });
     document.getElementById("back").addEventListener("click", () => {
         window.scrollTo({
@@ -28,6 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
             left: 0,
             behavior: "smooth",
         });
+        currentPage = "landing";
     });
 
     document.querySelectorAll(".project").forEach((project) => {
@@ -110,4 +129,18 @@ window.addEventListener("resize", refreshPageDimensions);
 function refreshPageDimensions() {
     pageWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
     pageHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+
+    if (currentPage === "dev") {
+        window.scrollTo({
+            top: pageHeight,
+            left: 0,
+            behavior: "smooth",
+        });
+    } else if (currentPage === "pho") {
+        window.scrollTo({
+            top: 0,
+            left: pageWidth,
+            behavior: "smooth",
+        });
+    }
 }

@@ -20,7 +20,6 @@
 :root {
     --dev-bg: #111;
     --dev-fg: #fff;
-    --tint: #753ed6;
 }
 
 * {
@@ -158,7 +157,8 @@ button {
     letter-spacing: 2px;
     border-radius: 0;
     z-index: 3;
-    box-shadow: 0px 2px 6px 0px rgba(50, 50, 50, 0.33);
+    box-shadow: 0px 0px 15px -5px var(--tint);
+    max-width: 80vw;
 }
 
 button:hover {
@@ -262,6 +262,39 @@ button:active {
     }
 }
 
+/* ------- Color Picker ------- */
+
+#colorPicker {
+    z-index: 10;
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+}
+
+#colorPicker label {
+    background-color: var(--tint);
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    display: block;
+    border: 1px solid white;
+    cursor: pointer;
+    box-shadow: 0px 0px 15px 0px var(--tint);
+    transition: transform 0.6s;
+}
+
+#colorPicker label:hover {
+    transform: scale(1.1);
+}
+
+#colorPicker label:active {
+    transform: scale(0.9);
+}
+
+#colorPicker #tint {
+    display: none;
+}
+
 /* ------- Gallery ------- */
 
 #galleryPage {
@@ -314,17 +347,38 @@ button:active {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+#profile p {
+    flex: 1 1 300px;
 }
 
 #profilePicture {
-    width: 20vw;
+    width: 25vw;
     border-radius: 50%;
-    height: 20vw;
+    height: 25vw;
     object-fit: cover;
     object-position: top;
-    flex: 0 0 20vw;
-    margin-left: 20px;
+    flex: 0 0 25vw;
     box-shadow: 0px 0px 15px -5px var(--tint);
+}
+
+@media (max-width: 620px) {
+    #profilePicture {
+        width: 50vw;
+        height: 50vw;
+        flex: 0 0 50vw;
+    }
+}
+
+@media (min-width: 1292px) {
+    #profilePicture {
+        width: 322px;
+        height: 322px;
+        flex: 0 0 322px;
+    }
 }
 
 h2 {
@@ -478,10 +532,6 @@ ul.inline li {
 .project .openLink:hover {
     background-color: var(--dev-fg);
     color: var(--tint);
-}
-
-.project i[class^="fa"]:hover,
-.project i[class*=" fa"]:hover {
     mix-blend-mode: normal;
     color: var(--tint);
 }
@@ -567,15 +617,15 @@ textarea:focus {
     margin: 0 10px 20px;
 }
 
-i[class^="fa"],
-i[class*=" fa"] {
+a:has(> i[class^="fa"]),
+a:has(> i[class*=" fa"]) {
     transition:
         color 0.6s,
         mix-blend-mode 0.6s;
 }
 
-i[class^="fa"]:hover,
-i[class*=" fa"]:hover {
+a:has(> i[class^="fa"]):hover,
+a:has(> i[class*=" fa"]):hover {
     color: var(--dev-fg);
     mix-blend-mode: difference;
 }
