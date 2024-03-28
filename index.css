@@ -55,6 +55,7 @@ h1:has(+ .headerNote) {
 
 a {
     color: var(--tint);
+    transition: color 0.6s;
 }
 
 .hide {
@@ -123,6 +124,7 @@ a {
 
 .nameFirstLetter {
     color: var(--tint);
+    transition: color 0.6s;
     z-index: 3;
 }
 
@@ -280,7 +282,10 @@ button:active {
     border: 1px solid white;
     cursor: pointer;
     box-shadow: 0px 0px 15px 0px var(--tint);
-    transition: transform 0.6s;
+    transition:
+        transform 0.6s,
+        background-color 0.6s,
+        box-shadow 0.6s;
 }
 
 #colorPicker label:hover {
@@ -363,6 +368,7 @@ button:active {
     object-position: top;
     flex: 0 0 25vw;
     box-shadow: 0px 0px 15px -5px var(--tint);
+    transition: box-shadow 0.6s;
 }
 
 @media (max-width: 620px) {
@@ -423,10 +429,15 @@ ul.inline li {
     transform: rotate(-5deg);
     height: 60px;
     background-color: var(--tint);
+    transition: background-color 0.6s;
     margin: 80px 0 100px 0;
 }
 
 /* ------- Portfolio ------- */
+
+#portfolio {
+    scroll-margin-top: 40px;
+}
 
 #projects {
     display: flex;
@@ -447,13 +458,29 @@ ul.inline li {
     border-radius: 20px;
     display: block;
     overflow: hidden;
-    transition: height 0.6s;
+    transition:
+        height 0.6s,
+        border-color 0.6s;
     height: 235px;
 }
 
 .project .imgWrapper {
     cursor: pointer;
     position: relative;
+}
+
+.project .imgWrapper::before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    background-color: #fffd;
+    position: absolute;
+    transition: opacity 0.6s;
+    opacity: 0;
+}
+
+.project .imgWrapper:hover:before {
+    opacity: 1;
 }
 
 .project .imgWrapper::after {
@@ -464,19 +491,21 @@ ul.inline li {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    background-color: #444b;
     padding: 5px 10px;
     border-radius: 10px;
-    max-width: 300px;
+    width: 300px;
     text-align: center;
+    color: #000;
+    font-weight: 700;
+    font-size: 26px;
 }
 
 .project .imgWrapper:hover::after {
     opacity: 1;
 }
 
-.project.active .imgWrapper::after,
-.project.active .imgWrapper:hover::after {
+.project.active .imgWrapper:hover::after,
+.project.active .imgWrapper:hover::before {
     opacity: 0;
 }
 
@@ -508,13 +537,13 @@ ul.inline li {
 }
 
 .project .github:has(~ .openLink) {
-    right: 60px;
+    right: 55px;
 }
 
 .project .github,
 .project .openLink {
     position: absolute;
-    right: 15px;
+    right: 10px;
     top: 10px;
     color: var(--dev-fg);
     background-color: var(--tint);
@@ -525,7 +554,8 @@ ul.inline li {
     padding: 3px;
     transition:
         color 0.6s,
-        background-color 0.6s;
+        background-color 0.6s,
+        box-shadow 0.6s;
 }
 
 .project .github:hover,
@@ -533,7 +563,6 @@ ul.inline li {
     background-color: var(--dev-fg);
     color: var(--tint);
     mix-blend-mode: normal;
-    color: var(--tint);
 }
 
 .project .tags {
@@ -547,6 +576,9 @@ ul.inline li {
     padding: 5px 10px;
     border-radius: 50px;
     background-color: var(--tint);
+    transition:
+        background-color 0.6s,
+        box-shadow 0.6s;
     font-size: 18px;
     -webkit-user-select: none; /* Safari */
     -ms-user-select: none; /* IE 10 and IE 11 */
