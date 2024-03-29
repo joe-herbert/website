@@ -20,6 +20,7 @@
 :root {
     --dev-bg: #111;
     --dev-fg: #fff;
+    --tint: #753ed6;
 }
 
 * {
@@ -273,7 +274,7 @@ button:active {
     bottom: 30px;
 }
 
-#colorPicker label {
+#colorPicker #tintLabel {
     background-color: var(--tint);
     width: 50px;
     height: 50px;
@@ -288,12 +289,36 @@ button:active {
         box-shadow 0.6s;
 }
 
-#colorPicker label:hover {
+#colorPicker #tintLabel:hover {
     transform: scale(1.1);
 }
 
-#colorPicker label:active {
+#colorPicker #tintLabel:active {
     transform: scale(0.9);
+}
+
+#colorPicker #tintLabel::after {
+    content: "- Click to change the page tint color\a- Right click to reset";
+    white-space: pre;
+    position: absolute;
+    top: -5px;
+    left: 50px;
+    background-color: #fffa;
+    color: #000;
+    opacity: 0;
+    padding: 10px 20px;
+    border-radius: 50px 50px 0;
+    transition:
+        transform 0.6s,
+        opacity 0.6s;
+    font-size: 16px;
+    line-height: 1.3em;
+    transform: translateX(-100%);
+}
+
+#colorPicker #tintLabel:hover::after {
+    opacity: 1;
+    transform: translate(-100%, -100%);
 }
 
 #colorPicker #tint {

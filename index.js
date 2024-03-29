@@ -23,6 +23,14 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelector(":root").style.setProperty("--tint", event.currentTarget.value);
         localStorage.setItem("tint", event.currentTarget.value);
     });
+    document.getElementById("tintLabel").addEventListener("contextmenu", (event) => {
+        event.preventDefault();
+        let tintColor = "#753ed6";
+        localStorage.setItem("tint", tintColor);
+        document.querySelector(":root").style.setProperty("--tint", tintColor);
+        tint.value = tintColor;
+        return false;
+    });
 
     document.getElementById("photo").addEventListener("click", () => {
         window.scrollTo({
