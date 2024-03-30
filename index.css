@@ -52,6 +52,7 @@ h1:has(+ .headerNote) {
 .headerNote {
     display: table;
     margin: 0 auto 35px;
+    text-align: center;
 }
 
 a {
@@ -60,7 +61,11 @@ a {
 }
 
 .hide {
-    display: none;
+    display: none !important;
+}
+
+.invisible {
+    opacity: 0 !important;
 }
 
 /* ------- Landing ------- */
@@ -464,14 +469,42 @@ ul.inline li {
     scroll-margin-top: 40px;
 }
 
-#projects {
+#topTags {
+    margin-bottom: 20px;
+    height: 35px;
+}
+
+#topTagsLabel {
+    opacity: 0;
+    transition: opacity 0.6s;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+    cursor: pointer;
+}
+
+#topTagsLabel:has(~ .tag) {
+    opacity: 1;
+}
+
+.projectWrapper {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-evenly;
-    align-content: space-around;
+    align-content: flex-start;
     align-items: center;
     gap: 10px;
+    overflow: hidden;
+    transition: height 0.6s;
+}
+
+#projectsButton {
+    position: relative;
+    left: 50%;
+    top: 0px;
+    transform: translateX(-50%);
+    margin: 80px 0;
 }
 
 .project {
@@ -481,12 +514,14 @@ ul.inline li {
     max-width: 400px;
     border: 2px solid var(--tint);
     border-radius: 20px;
-    display: block;
     overflow: hidden;
     transition:
         height 0.6s,
-        border-color 0.6s;
+        border-color 0.6s,
+        opacity 0.6s;
     height: 235px;
+    opacity: 1;
+    display: block;
 }
 
 .project .imgWrapper {
@@ -500,8 +535,11 @@ ul.inline li {
     height: 100%;
     background-color: #fffd;
     position: absolute;
-    transition: opacity 0.6s;
     opacity: 0;
+    border-radius: 20px;
+    transition:
+        border-radius 0.6s,
+        opacity 0.6s;
 }
 
 .project .imgWrapper:hover:before {
@@ -549,7 +587,8 @@ ul.inline li {
     display: block;
 }
 
-.project.active img {
+.project.active img,
+.project.active .imgWrapper::before {
     border-radius: 20px 20px 0 0;
 }
 
@@ -583,6 +622,7 @@ ul.inline li {
         box-shadow 0.6s;
 }
 
+.tag:hover,
 .project .github:hover,
 .project .openLink:hover {
     background-color: var(--dev-fg);
@@ -597,21 +637,24 @@ ul.inline li {
     font-size: 0;
 }
 
-.project .tag {
+.tag {
     padding: 5px 10px;
     border-radius: 50px;
     background-color: var(--tint);
     transition:
         background-color 0.6s,
-        box-shadow 0.6s;
+        box-shadow 0.6s,
+        opacity 0.6s;
     font-size: 18px;
     -webkit-user-select: none; /* Safari */
     -ms-user-select: none; /* IE 10 and IE 11 */
     user-select: none; /* Standard syntax */
     margin-right: 5px;
+    opacity: 1;
+    cursor: pointer;
 }
 
-.project .tag,
+.tag,
 .project .github,
 .project .openLink {
     box-shadow: 5px 5px 10px -5px var(--tint);
@@ -628,6 +671,36 @@ ul.inline li {
     position: absolute;
     top: 235px;
     left: 0;
+}
+
+/* ------- Active Projects ------- */
+
+#allProjects {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background-color: var(--dev-bg);
+    opacity: 0;
+    display: none;
+    z-index: 9;
+    transition: opacity 0.6s;
+}
+
+.allProject {
+    display: inline-block;
+    border-radius: 50%;
+    width: 20vw;
+    height: 20vw;
+}
+
+.allProject img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid var(--tint);
 }
 
 /* ------- Contact ------- */

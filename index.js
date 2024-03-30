@@ -1,4 +1,7 @@
 let currentPage = "landing";
+let tags = [];
+let projectsHeight = 735;
+let activeProjectHeights = {};
 
 document.addEventListener("DOMContentLoaded", () => {
     particlesJS.load("particles", "assets/particles.json", function () {
@@ -57,6 +60,105 @@ document.addEventListener("DOMContentLoaded", () => {
         currentPage = "landing";
     });
 
+    let projectsButton = document.getElementById("projectsButton");
+    projectsButton.addEventListener("click", () => {
+        let allProjects = document.getElementById("allProjects");
+        if (allProjects.dataset.active === "true") {
+            allProjects.dataset.active = "false";
+            allProjects.style.opacity = "0";
+            allProjects.addEventListener("transitionend", function (e) {
+                allProjects.removeEventListener("transitionend", arguments.callee);
+                allProjects.style.display = "none";
+            });
+        } else {
+            allProjects.dataset.active = "true";
+            allProjects.style.display = "block";
+            setTimeout(() => {
+                allProjects.style.opacity = "1";
+            }, 50);
+        }
+    });
+
+    //main projects section
+    let projectsShown = 0;
+    portfolio.forEach((project) => {
+        let projectDiv = document.createElement("div");
+        projectDiv.classList.add("project");
+        if (projectsShown >= 6) {
+            projectDiv.classList.add("hide");
+        } else {
+            projectsShown++;
+        }
+        let imgWrapper = document.createElement("div");
+        imgWrapper.classList.add("imgWrapper");
+        imgWrapper.dataset.title = project.title;
+        let img = document.createElement("img");
+        img.src = project.img;
+        if (project.imgStyle) {
+            img.style = project.imgStyle;
+        }
+        imgWrapper.appendChild(img);
+        projectDiv.appendChild(imgWrapper);
+        let github = document.createElement("a");
+        github.classList.add("github");
+        github.target = "_blank";
+        github.innerHTML = `<i class="fa-brands fa-github"></i>`;
+        if (project.github) {
+            github.href = project.github;
+            projectDiv.appendChild(github);
+        }
+        let openLink = document.createElement("a");
+        openLink.classList.add("openLink");
+        openLink.target = "_blank";
+        openLink.innerHTML = `<i class="fa-solid fa-arrow-up-right-from-square"></i>`;
+        if (project.link) {
+            openLink.href = project.link;
+            projectDiv.appendChild(openLink);
+        }
+        let tags = document.createElement("div");
+        tags.classList.add("tags");
+        project.tags.forEach((tag) => {
+            let span = document.createElement("span");
+            span.classList.add("tag");
+            span.innerHTML = tag;
+            tags.appendChild(span);
+        });
+        projectDiv.appendChild(tags);
+        let projectText = document.createElement("div");
+        projectText.classList.add("projectText");
+        let projectTitle = document.createElement("span");
+        projectTitle.classList.add("projectTitle");
+        projectTitle.innerHTML = project.title;
+        let br = document.createElement("br");
+        let description = document.createElement("span");
+        description.classList.add("description");
+        description.innerHTML = project.description;
+        projectText.appendChild(projectTitle);
+        projectText.appendChild(br);
+        projectText.appendChild(description);
+        projectDiv.appendChild(projectText);
+
+        document.getElementById("projects").appendChild(projectDiv);
+    });
+
+    //all projects section, in a separate loop so that main images load first - TODO: ideally would optimise to only download each image once and just use it in multiple places
+    portfolio.forEach((project) => {
+        let allProjectDiv = document.createElement("div");
+        allProjectDiv.dataset.title = project.title;
+        allProjectDiv.dataset.description = project.description;
+        allProjectDiv.dataset.img = project.img;
+        allProjectDiv.dataset.imgStyle = project.imgStyle;
+        allProjectDiv.dataset.github = project.github;
+        allProjectDiv.dataset.link = project.link;
+        allProjectDiv.dataset.tags = JSON.stringify(project.tags);
+        allProjectDiv.classList.add("allProject");
+        let allImg = document.createElement("img");
+        allImg.src = project.img;
+        allImg.style = project.imgStyle;
+        allProjectDiv.appendChild(allImg);
+        document.getElementById("allProjects").appendChild(allProjectDiv);
+    });
+
     document.querySelectorAll(".project").forEach((project) => {
         project.querySelector(".imgWrapper").addEventListener("click", () => {
             if (project.classList.contains("active")) {
@@ -72,16 +174,171 @@ document.addEventListener("DOMContentLoaded", () => {
                 div.style.position = "absolute";
                 div.style.top = "-200vh";
                 div.style.left = "-200vw";
-                let body = document.querySelector("body");
-                body.appendChild(div);
-                project.style.height = 235 + div.getBoundingClientRect().height + "px";
-                body.removeChild(div);
+                document.body.appendChild(div);
+                let height = div.getBoundingClientRect().height;
+                project.style.height = 235 + height + "px";
+                document.body.removeChild(div);
             }
+            setTimeout(() => {
+                projectsHeight = document.getElementById("projects").scrollHeight;
+            }, 600);
         });
     });
 
+    document.querySelectorAll(".tag").forEach((tag) => {
+        tag.addEventListener("click", (event) => {
+            let tagValue = event.currentTarget.innerHTML;
+            if (tags.includes(tagValue)) {
+                //remove tag
+                removeTag(tagValue);
+            } else {
+                tags.push(tagValue);
+                //add tag to list at top
+                let topTag = document.createElement("span");
+                topTag.classList.add("tag", "invisible");
+                topTag.innerHTML = tagValue;
+                topTag.addEventListener("click", () => {
+                    //remove tag
+                    removeTag(tagValue);
+                    filterTags();
+                });
+                document.getElementById("topTags").appendChild(topTag);
+                setTimeout(() => {
+                    topTag.classList.remove("invisible");
+                }, 100);
+            }
+            filterTags();
+        });
+    });
+
+    let projects = document.getElementById("projects");
+    projectsHeight = projects.scrollHeight;
+
     document.querySelectorAll("#gallery img").forEach(() => {});
 });
+
+function removeTag(tagValue) {
+    const index = tags.indexOf(tagValue);
+    if (index > -1) {
+        tags.splice(index, 1);
+    }
+    let tagWidth = undefined;
+    let foundTag = undefined;
+    let nextTag = false;
+    document.querySelectorAll("#topTags .tag").forEach((tag) => {
+        if (tag.innerHTML === tagValue) {
+            tagWidth = tag.getBoundingClientRect().width;
+            tag.classList.add("invisible");
+            foundTag = tag;
+            nextTag = true;
+        } else if (nextTag) {
+            setTimeout(() => {
+                foundTag.parentElement.removeChild(foundTag);
+                tag.style.transition = "background-color 0.6s, box-shadow 0.6s, opacity 0.6s";
+                tag.style.marginLeft = tagWidth + 5 + "px";
+                setTimeout(() => {
+                    tag.style.transition = "background-color 0.6s, box-shadow 0.6s, opacity 0.6s, margin-left 0.6s";
+                    setTimeout(() => {
+                        tag.style.marginLeft = 0;
+                    }, 50);
+                }, 50);
+            }, 600);
+            nextTag = false;
+        }
+    });
+    if (nextTag) {
+        setTimeout(() => {
+            foundTag.parentElement.removeChild(foundTag);
+        }, 600);
+    }
+}
+
+function filterTags() {
+    document.querySelectorAll(".project").forEach((project) => {
+        project.style.opacity = 0;
+    });
+    setTimeout(() => {
+        let projectsShown = 0;
+        if (tags.length === 0) {
+            document.querySelectorAll(".project").forEach((project) => {
+                if (projectsShown < 6) {
+                    project.classList.remove("hide");
+                    projectsShown++;
+                    setTimeout(() => {
+                        project.style.opacity = 1;
+                    }, 100);
+                } else {
+                    project.classList.add("hide");
+                }
+            });
+        } else {
+            document.querySelectorAll(".project").forEach((project) => {
+                //get project tags
+                let projectTags = [];
+                project.querySelectorAll(".tags .tag").forEach((projectTag) => {
+                    projectTags.push(projectTag.innerHTML);
+                });
+                //search for a matching tag
+                let found = false;
+                projectTags.forEach((projectTag) => {
+                    if (tags.includes(projectTag)) {
+                        project.classList.remove("hide");
+                        found = true;
+                    }
+                });
+                //if no matching tag then hide
+                if (!found || projectsShown >= 6) {
+                    project.classList.add("hide");
+                } else {
+                    project.classList.remove("hide");
+                    projectsShown++;
+                    setTimeout(() => {
+                        project.style.opacity = 1;
+                    }, 100);
+                }
+            });
+        }
+        let projects = document.getElementById("projects");
+        if (projectsHeight < projects.scrollHeight) {
+            projects.style.height = projectsHeight + "px";
+            setTimeout(() => {
+                projects.addEventListener("transitionend", function (e) {
+                    projects.removeEventListener("transitionend", arguments.callee);
+                    setTimeout(() => {
+                        projects.style.height = null;
+                    }, 600);
+                });
+                projects.style.height = projects.scrollHeight + "px";
+                projectsHeight = projects.scrollHeight;
+            }, 50);
+        } else {
+            let tmpProjects = document.createElement("div");
+            tmpProjects.id = "tmpProjects";
+            tmpProjects.classList.add("projectWrapper");
+            tmpProjects.innerHTML = projects.innerHTML;
+            tmpProjects.style.position = "fixed";
+            tmpProjects.style.left = "-100vw";
+            tmpProjects.style.top = "-100vh";
+            tmpProjects.style.width = "80vw";
+
+            document.body.appendChild(tmpProjects);
+            projects.style.height = projectsHeight + "px";
+            setTimeout(() => {
+                projects.addEventListener("transitionend", function (e) {
+                    projects.removeEventListener("transitionend", arguments.callee);
+                    setTimeout(() => {
+                        projects.style.height = null;
+                    }, 600);
+                });
+                if (tmpProjects.scrollHeight !== projects.scrollHeight) {
+                    projects.style.height = tmpProjects.scrollHeight + "px";
+                }
+                projectsHeight = tmpProjects.scrollHeight;
+                document.body.removeChild(tmpProjects);
+            }, 50);
+        }
+    }, 600);
+}
 
 function getAge() {
     var today = new Date();
