@@ -65,21 +65,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     document.getElementById("allProjectsClose").addEventListener("click", () => {
-        let allProjects = document.getElementById("allProjects");
-        allProjects.style.opacity = "0";
-        allProjects.addEventListener("transitionend", function (e) {
-            allProjects.removeEventListener("transitionend", arguments.callee);
-            allProjects.style.display = "none";
-        });
+        document.getElementById("allProjects").classList.remove("showProjects");
     });
 
     let projectsButton = document.getElementById("projectsButton");
     projectsButton.addEventListener("click", () => {
-        let allProjects = document.getElementById("allProjects");
-        allProjects.style.display = "block";
-        setTimeout(() => {
-            allProjects.style.opacity = "1";
-        }, 50);
+        document.getElementById("allProjects").classList.add("showProjects");
     });
 
     //main projects section

@@ -3,17 +3,17 @@
 @font-face {
     font-family: "Monthoers";
     src:
-        url("../assets/fonts/monthoers-webfont.woff2") format("woff2"),
-        url("../assets/fonts/monthoers-webfont.woff") format("woff"),
-        url("../assets/fonts/monthoers-webfont.ttf") format("truetype");
+        url("assets/fonts/monthoers-webfont.woff2") format("woff2"),
+        url("assets/fonts/monthoers-webfont.woff") format("woff"),
+        url("assets/fonts/monthoers-webfont.ttf") format("truetype");
     font-weight: bold;
 }
 
 @font-face {
     font-family: "Dosis";
     src:
-        url("../assets/fonts/Dosis.woff2") format("woff2"),
-        url("../assets/fonts/Dosis.ttf") format("truetype");
+        url("assets/fonts/Dosis.woff2") format("woff2"),
+        url("assets/fonts/Dosis.ttf") format("truetype");
     font-weight: 1 999;
 }
 
@@ -691,12 +691,19 @@ ul.inline li {
     left: 0;
     background-color: var(--dev-bg);
     opacity: 0;
-    display: none;
+    visibility: hidden;
     z-index: 9;
-    transition: opacity 0.6s;
+    transition:
+        opacity 0.6s,
+        visibility 0.6s;
     display: none;
     padding: 5vw;
     overflow: auto;
+}
+
+#allProjects.showProjects {
+    opacity: 1;
+    visibility: visible;
 }
 
 #allPortfolio {
@@ -708,7 +715,6 @@ ul.inline li {
     grid-template-columns: repeat(auto-fit, calc(var(--s) + 2 * var(--mh)));
     justify-content: center;
     font-size: 0;
-    line-height: 1em;
 
     --s: min(300px, 80vw); /* size */
     --r: 1.15; /* ratio */
@@ -730,14 +736,6 @@ ul.inline li {
     grid-column: 1/-1;
 }
 
-#allProjectsContainer::before {
-    content: "";
-    width: calc(var(--s) / 2 + var(--mh));
-    float: left;
-    height: 120%;
-    shape-outside: repeating-linear-gradient(#0000 0 calc(var(--f) - 2px), #000 0 var(--f));
-}
-
 #allProjectsContainer .allProject {
     clip-path: polygon(var(--hc) 0, calc(100% - var(--hc)) 0, 100% var(--vc), 100% calc(100% - var(--vc)), calc(100% - var(--hc)) 100%, var(--hc) 100%, 0 calc(100% - var(--vc)), 0 var(--vc));
     width: 100%;
@@ -753,7 +751,6 @@ ul.inline li {
     height: calc(var(--s) * var(--r));
     display: inline-block;
     font-size: initial;
-    margin-bottom: calc(var(--mv) - var(--vc));
     position: relative;
     z-index: 1;
     transition:
@@ -767,6 +764,24 @@ ul.inline li {
     transform: scale(1.1);
     transition: transform 0.6s;
     z-index: 4;
+}
+
+@media (min-width: 685px) {
+    #allProjectsWrapper {
+        line-height: 1em;
+    }
+
+    #allProjectsContainer::before {
+        content: "";
+        width: calc(var(--s) / 2 + var(--mh));
+        float: left;
+        height: 120%;
+        shape-outside: repeating-linear-gradient(#0000 0 calc(var(--f) - 2px), #000 0 var(--f));
+    }
+
+    #allProjectsContainer .allProjectWrapper {
+        margin-bottom: calc(var(--mv) - var(--vc));
+    }
 }
 
 .close {

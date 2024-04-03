@@ -94,7 +94,8 @@ let portfolio = [
     {
         title: "Edward's Boys",
         img: "assets/portfolio/edwardsBoys.png",
-        icon: "assets/portfolio/icon/edwardsBoys.png",
+        icon: "assets/portfolio/icons/edwardsBoys.png",
+        iconBackground: "#fff",
         github: "",
         link: "",
         tags: ["WordPress", "CSS", "SEO"],
