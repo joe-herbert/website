@@ -60,23 +60,26 @@ document.addEventListener("DOMContentLoaded", () => {
         currentPage = "landing";
     });
 
+    document.getElementById("projectClose").addEventListener("click", () => {
+        document.getElementById("projectInfo").classList.remove("showInfo");
+    });
+
+    document.getElementById("allProjectsClose").addEventListener("click", () => {
+        let allProjects = document.getElementById("allProjects");
+        allProjects.style.opacity = "0";
+        allProjects.addEventListener("transitionend", function (e) {
+            allProjects.removeEventListener("transitionend", arguments.callee);
+            allProjects.style.display = "none";
+        });
+    });
+
     let projectsButton = document.getElementById("projectsButton");
     projectsButton.addEventListener("click", () => {
         let allProjects = document.getElementById("allProjects");
-        if (allProjects.dataset.active === "true") {
-            allProjects.dataset.active = "false";
-            allProjects.style.opacity = "0";
-            allProjects.addEventListener("transitionend", function (e) {
-                allProjects.removeEventListener("transitionend", arguments.callee);
-                allProjects.style.display = "none";
-            });
-        } else {
-            allProjects.dataset.active = "true";
-            allProjects.style.display = "block";
-            setTimeout(() => {
-                allProjects.style.opacity = "1";
-            }, 50);
-        }
+        allProjects.style.display = "block";
+        setTimeout(() => {
+            allProjects.style.opacity = "1";
+        }, 50);
     });
 
     //main projects section
@@ -147,16 +150,40 @@ document.addEventListener("DOMContentLoaded", () => {
         allProjectDiv.dataset.title = project.title;
         allProjectDiv.dataset.description = project.description;
         allProjectDiv.dataset.img = project.img;
-        allProjectDiv.dataset.imgStyle = project.imgStyle;
-        allProjectDiv.dataset.github = project.github;
-        allProjectDiv.dataset.link = project.link;
+        if (project.imgStyle) allProjectDiv.dataset.imgStyle = project.imgStyle;
+        if (project.github) allProjectDiv.dataset.github = project.github;
+        if (project.link) allProjectDiv.dataset.link = project.link;
         allProjectDiv.dataset.tags = JSON.stringify(project.tags);
         allProjectDiv.classList.add("allProject");
-        let allImg = document.createElement("img");
-        allImg.src = project.img;
-        allImg.style = project.imgStyle;
-        allProjectDiv.appendChild(allImg);
-        document.getElementById("allProjects").appendChild(allProjectDiv);
+        allProjectDiv.style.backgroundImage = `url("${project.icon}")`;
+        allProjectDiv.style.backgroundColor = project.iconBackground;
+        let allProjectDivWrapper = document.createElement("div");
+        allProjectDivWrapper.classList.add("allProjectWrapper");
+        allProjectDivWrapper.appendChild(allProjectDiv);
+        allProjectDiv.addEventListener("click", (event) => {
+            let data = event.currentTarget.dataset;
+            let img = document.getElementById("projectImg");
+            img.src = data.img;
+            if (data.imgStyle) img.style.cssText += data.imgStyle;
+            else img.removeAttribute("style");
+            if (data.github) document.getElementById("projectGithub").href = data.github;
+            else document.getElementById("projectGithub").removeAttribute("href");
+            if (data.link) document.getElementById("projectLink").href = data.link;
+            else document.getElementById("projectLink").removeAttribute("href");
+            let tags = document.getElementById("projectTags");
+            tags.innerHTML = "";
+            let tagsArray = JSON.parse(data.tags);
+            tagsArray.forEach((tag) => {
+                let span = document.createElement("span");
+                span.classList.add("tag");
+                span.innerHTML = tag;
+                tags.appendChild(span);
+            });
+            document.getElementById("projectTitle").innerHTML = data.title;
+            document.getElementById("projectDescription").innerHTML = data.description;
+            document.getElementById("projectInfo").classList.add("showInfo");
+        });
+        document.getElementById("allProjectsContainer").appendChild(allProjectDivWrapper);
     });
 
     document.querySelectorAll(".project").forEach((project) => {
@@ -185,7 +212,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    document.querySelectorAll(".tag").forEach((tag) => {
+    document.querySelectorAll("#projects .tag").forEach((tag) => {
         tag.addEventListener("click", (event) => {
             let tagValue = event.currentTarget.innerHTML;
             if (tags.includes(tagValue)) {
