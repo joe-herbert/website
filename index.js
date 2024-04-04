@@ -2,8 +2,13 @@ let currentPage = "landing";
 let tags = [];
 let projectsHeight = 735;
 let activeProjectHeights = {};
+const defaultTint = "#753ed6";
 
 document.addEventListener("DOMContentLoaded", () => {
+    setTimeout(() => {
+        document.body.classList.add("loaded");
+    }, 50);
+
     particlesJS.load("particles", "assets/particles.json", function () {
         console.log("callback - particles.js config loaded");
     });
@@ -12,25 +17,47 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById("age").innerHTML = getAge();
 
+    let tint = document.getElementById("tint");
     let tintColor = localStorage.getItem("tint");
-    if (tintColor) {
+    const supportsAtProperty = window.getComputedStyle(document.documentElement).getPropertyValue("--tint") !== "";
+    if (supportsAtProperty) {
+        document.getElementById("tintLabel").dataset.message = `- Click to change the page tint color\n- Right click to reset\n- Ctrl + Click for rainbow mode`;
+    }
+    if (tintColor === "rainbow" && !supportsAtProperty) {
+        tintColor = defaultTint;
+    }
+    if (tintColor === "rainbow") {
+        document.querySelector(":root").classList.add("rainbow");
+        tint.value = defaultTint;
+    } else if (tintColor) {
         document.querySelector(":root").style.setProperty("--tint", tintColor);
+        tint.value = tintColor;
     } else {
-        tintColor = "#753ed6";
+        tintColor = defaultTint;
         localStorage.setItem("tint", tintColor);
         document.querySelector(":root").style.setProperty("--tint", tintColor);
+        tint.value = tintColor;
     }
-    let tint = document.getElementById("tint");
-    tint.value = tintColor;
     tint.addEventListener("change", (event) => {
-        document.querySelector(":root").style.setProperty("--tint", event.currentTarget.value);
+        let root = document.querySelector(":root");
+        root.style.setProperty("--tint", event.currentTarget.value);
+        root.classList.remove("rainbow");
         localStorage.setItem("tint", event.currentTarget.value);
+    });
+    document.getElementById("tintLabel").addEventListener("click", (event) => {
+        if (event.ctrlKey && supportsAtProperty) {
+            event.preventDefault();
+            document.querySelector(":root").classList.add("rainbow");
+            localStorage.setItem("tint", "rainbow");
+        }
     });
     document.getElementById("tintLabel").addEventListener("contextmenu", (event) => {
         event.preventDefault();
-        let tintColor = "#753ed6";
+        let tintColor = defaultTint;
         localStorage.setItem("tint", tintColor);
-        document.querySelector(":root").style.setProperty("--tint", tintColor);
+        let root = document.querySelector(":root");
+        root.style.setProperty("--tint", tintColor);
+        root.classList.remove("rainbow");
         tint.value = tintColor;
         return false;
     });
@@ -166,7 +193,7 @@ document.addEventListener("DOMContentLoaded", () => {
             let tagsArray = JSON.parse(data.tags);
             tagsArray.forEach((tag) => {
                 let span = document.createElement("span");
-                span.classList.add("tag");
+                span.classList.add("tag", "usesTint");
                 span.innerHTML = tag;
                 tags.appendChild(span);
             });
@@ -213,7 +240,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 tags.push(tagValue);
                 //add tag to list at top
                 let topTag = document.createElement("span");
-                topTag.classList.add("tag", "invisible");
+                topTag.classList.add("tag", "invisible", "usesTint");
                 topTag.innerHTML = tagValue;
                 topTag.addEventListener("click", () => {
                     //remove tag
@@ -233,6 +260,10 @@ document.addEventListener("DOMContentLoaded", () => {
     projectsHeight = projects.scrollHeight;
 
     document.querySelectorAll("#gallery img").forEach(() => {});
+
+    document.querySelectorAll("a, .nameFirstLetter, button, #colorPicker #tintLabel, #profilePicture, #divider, .project, .project .github, .project .openLink, .tag, .close, #projectGithub, #projectLink").forEach((element) => {
+        element.classList.add("usesTint");
+    });
 });
 
 function removeTag(tagValue) {

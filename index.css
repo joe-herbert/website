@@ -17,10 +17,51 @@
     font-weight: 1 999;
 }
 
+@property --tint {
+    syntax: "<color>";
+    initial-value: #753ed6;
+    inherits: false;
+}
+
 :root {
     --dev-bg: #111;
     --dev-fg: #fff;
-    --tint: #753ed6;
+}
+
+:root.rainbow .usesTint,
+:root.rainbow .usesTint::before,
+:root.rainbow .usesTint::after {
+    animation: rainbowTint 4s linear infinite;
+}
+
+@keyframes rainbowTint {
+    0% {
+        --tint: #753ed6;
+    }
+    12% {
+        --tint: #70369d;
+    }
+    24% {
+        --tint: #4b369d;
+    }
+    37% {
+        --tint: #487de7;
+    }
+    50% {
+        --tint: #79c314;
+    }
+    63% {
+        --tint: #faeb36;
+    }
+    75% {
+        --tint: #ffa500;
+    }
+    88% {
+        --tint: #e81416;
+    }
+    100% {
+        --tint: #753ed6;
+    }
 }
 
 * {
@@ -125,7 +166,14 @@ a {
     top: 50%;
     transform: translateY(-50%);
     opacity: 0;
-    animation: fadein 1s 0.5s ease forwards;
+    transition:
+        opacity 0.6s ease 0.5s,
+        color 0.6s;
+}
+
+body.loaded .nameWord,
+body.loaded .nameFirstLetter {
+    opacity: 1;
 }
 
 .nameWord {
@@ -134,7 +182,6 @@ a {
 
 .nameFirstLetter {
     color: var(--tint);
-    transition: color 0.6s;
     z-index: 3;
 }
 
@@ -308,7 +355,7 @@ button:active {
 }
 
 #colorPicker #tintLabel::after {
-    content: "- Click to change the page tint color\a- Right click to reset";
+    content: attr(data-message);
     white-space: pre;
     position: absolute;
     top: -5px;
@@ -696,7 +743,6 @@ ul.inline li {
     transition:
         opacity 0.6s,
         visibility 0.6s;
-    display: none;
     padding: 5vw;
     overflow: auto;
 }
@@ -790,18 +836,17 @@ ul.inline li {
     padding: 0;
     box-shadow: none;
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: 30px;
+    right: 30px;
     width: 32px;
     height: 32px;
-    opacity: 0.5;
     transition:
-        opacity 0.6s,
+        transform 0.6s,
         color 0.6s;
 }
 
 .close:hover {
-    opacity: 1;
+    transform: scale(1.5);
     background-color: transparent;
 }
 
@@ -812,7 +857,7 @@ ul.inline li {
     left: 15px;
     content: " ";
     height: 33px;
-    width: 2px;
+    width: 3px;
     background-color: var(--tint);
     transition: background-color 0.6s;
 }
