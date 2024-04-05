@@ -101,15 +101,26 @@ let portfolio = [
         tags: ["WordPress", "CSS", "SEO"],
         description: "",
     },
+    {
+        title: "Sideloads",
+        img: "assets/portfolio/sideloads.svg",
+        icon: "assets/portfolio/icons/sideloads.svg",
+        iconBackground: "#111",
+        github: "https://github.com/joe-herbert/sideloads",
+        link: "",
+        tags: ["JS", "WebExtensions API"],
+        description: "Firefox extension which allows you to view your downloads in the sidebar. It automatically updates, shows download progress and useful file information, and allows you to open the file, delete it from disk or remove it from downloads.",
+    },
     /*
     {
         title: "",
-        img: "",
+        img: "assets/portfolio/",
+        icon: "assets/portfolio/icons/",
+        iconBackground: "#",
         github: "",
         link: "",
         tags: [],
         description: "",
-        display: true,
     },
     */
 ];
