@@ -792,7 +792,6 @@ h2:has(+ .profileHeaderNote) {
 .project .openLink:hover {
     background-color: var(--dev-fg);
     color: var(--tint);
-    mix-blend-mode: normal;
 }
 
 .project .tags {
@@ -995,7 +994,7 @@ h2:has(+ .profileHeaderNote) {
     z-index: 5;
     min-height: 80vh;
     background-color: var(--dev-bg);
-    box-shadow: 0 0 10vw 2vw var(--dev-fg);
+    box-shadow: 0 0 3vw -1vw var(--dev-fg);
     padding: 5%;
     visibility: hidden;
     opacity: 0;
@@ -1127,15 +1126,12 @@ textarea:focus {
 
 a:has(> i[class^="fa"]),
 a:has(> i[class*=" fa"]) {
-    transition:
-        color 0.6s,
-        mix-blend-mode 0.6s;
+    transition: color 0.6s;
 }
 
 a:has(> i[class^="fa"]):hover,
 a:has(> i[class*=" fa"]):hover {
     color: var(--dev-fg);
-    mix-blend-mode: difference;
 }
 
 #contactForm {
