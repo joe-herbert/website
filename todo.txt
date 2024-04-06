@@ -6,8 +6,6 @@ Recaptcha for contact form
 
 Gallery section
 
-Transition height of rightInfCheck how clip path hexagons appear on other browsers
+Check how clip path hexagons appear on other browsers
 
 Mobile version
-
-Do I need to add cookies/localstorage warning?

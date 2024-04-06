@@ -23,12 +23,18 @@
     inherits: false;
 }
 
+@media (prefers-color-scheme: light) {
+    :root {
+        --tint: #955df7;
+    }
+}
+
 :root {
     color-scheme: dark light;
     --dev-bg: #111;
-    --dev-bg: light-dark(#eee, #111);
+    --dev-bg: light-dark(#ebedf3, #111);
     --dev-bg-accent: #303030;
-    --dev-bg-accent: light-dark(#bebebe, #303030);
+    --dev-bg-accent: light-dark(#dadee1, #303030);
     --dev-fg: #fff;
     --dev-fg: light-dark(#000, #fff);
 }
@@ -149,7 +155,7 @@ a {
     display: none;
     position: fixed;
     transform: translate(-50%, -50%);
-    background-color: var(--dev-fg);
+    background-color: #fff;
     border-radius: 50%;
 }
 
@@ -439,6 +445,7 @@ button:active {
     padding: 30px 10vw;
     overflow-y: auto;
     overflow-x: hidden;
+    scroll-behavior: smooth;
 }
 
 #profile {
@@ -595,6 +602,11 @@ h2:has(+ .profileHeaderNote) {
 
 .rightInfo.visible {
     opacity: 1;
+}
+
+.rightInfo li {
+    left: 100%;
+    transform: translate(-100%);
 }
 
 .role {

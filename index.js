@@ -3,9 +3,14 @@ let tags = [];
 let projectsHeight = 735;
 let activeProjectHeights = {};
 let lastScrollTop = 0;
-const defaultTint = "#753ed6";
+const defaultTintDark = "#753ed6";
+const defaultTintLight = "#955df7";
+let lightMode = false;
 
 document.addEventListener("DOMContentLoaded", () => {
+    if (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) {
+        lightMode = true;
+    }
     setTimeout(() => {
         document.body.classList.add("loaded");
     }, 50);
@@ -22,19 +27,22 @@ document.addEventListener("DOMContentLoaded", () => {
     let tintColor = localStorage.getItem("tint");
     const supportsAtProperty = window.getComputedStyle(document.documentElement).getPropertyValue("--tint") !== "";
     if (supportsAtProperty) {
-        document.getElementById("tintLabel").dataset.message = `- Click to change the page tint color\n- Right click to reset\n- Ctrl + Click for rainbow mode`;
+        document.getElementById("tintLabel").dataset.message = `- Click to change the page tint colour\n- Right click to reset\n- Ctrl + Click for rainbow mode`;
     }
     if (tintColor === "rainbow" && !supportsAtProperty) {
-        tintColor = defaultTint;
+        tintColor = lightMode ? defaultTintLight : defaultTintDark;
     }
     if (tintColor === "rainbow") {
         document.querySelector(":root").classList.add("rainbow");
-        tint.value = defaultTint;
+        tintColor = lightMode ? defaultTintLight : defaultTintDark;
     } else if (tintColor) {
+        if (tintColor === defaultTintDark || tintColor === defaultTintLight) {
+            tintColor = lightMode ? defaultTintLight : defaultTintDark;
+        }
         document.querySelector(":root").style.setProperty("--tint", tintColor);
         tint.value = tintColor;
     } else {
-        tintColor = defaultTint;
+        tintColor = lightMode ? defaultTintLight : defaultTintDark;
         localStorage.setItem("tint", tintColor);
         document.querySelector(":root").style.setProperty("--tint", tintColor);
         tint.value = tintColor;
@@ -54,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     document.getElementById("tintLabel").addEventListener("contextmenu", (event) => {
         event.preventDefault();
-        let tintColor = defaultTint;
+        let tintColor = lightMode ? defaultTintLight : defaultTintDark;
         localStorage.setItem("tint", tintColor);
         let root = document.querySelector(":root");
         root.style.setProperty("--tint", tintColor);
@@ -302,23 +310,25 @@ function hideRightInfo(li, rightInfo) {
 }
 
 function showRightInfo(li, rightInfo) {
-    li.closest(".profileSection")
-        .querySelectorAll("li.active")
-        .forEach((li) => {
-            li.classList.remove("active");
-        });
-    let tmpDiv = document.createElement("div");
-    tmpDiv.innerHTML = li.dataset.info;
-    let width = li.closest(".profileSection").getBoundingClientRect().width / 2;
-    tmpDiv.style.width = width + "px";
-    tmpDiv.style.textAlign = "right";
-    tmpDiv.style.padding = "10px";
-    tmpDiv.style.position = "absolute";
-    tmpDiv.style.top = "-100vh";
-    tmpDiv.style.left = "-100vw";
-    document.body.appendChild(tmpDiv);
-    let height = tmpDiv.getBoundingClientRect().height;
-    document.body.removeChild(tmpDiv);
+    let profileSection = li.closest(".profileSection");
+    profileSection.querySelectorAll("li.active").forEach((li) => {
+        li.classList.remove("active");
+    });
+    let tmpRightWrapper = document.createElement("div");
+    let width = profileSection.getBoundingClientRect().width / 2;
+    tmpRightWrapper.classList.add("profileSection");
+    tmpRightWrapper.style.width = width + "px";
+    tmpRightWrapper.style.padding = "10px";
+    tmpRightWrapper.style.position = "absolute";
+    tmpRightWrapper.style.top = "-100vh";
+    tmpRightWrapper.style.left = "-100vw";
+    let tmpRight = document.createElement("div");
+    tmpRight.innerHTML = li.dataset.info;
+    tmpRight.style.textAlign = "right";
+    tmpRightWrapper.appendChild(tmpRight);
+    document.body.appendChild(tmpRightWrapper);
+    let height = tmpRight.getBoundingClientRect().height + 20;
+    document.body.removeChild(tmpRightWrapper);
     let tmpUlWrapper = document.createElement("div");
     tmpUlWrapper.classList.add("profileSection");
     tmpUlWrapper.style.position = "absolute";
