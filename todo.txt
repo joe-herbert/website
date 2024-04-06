@@ -3,3 +3,5 @@ Add more info when clicking skills/experience etc.
 PHP for contact form
 Recaptcha for contact form
 Gallery section
+Light mode
+Transition height of rightInfo

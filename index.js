@@ -88,6 +88,24 @@ document.addEventListener("DOMContentLoaded", () => {
         currentPage = "landing";
     });
 
+    document.querySelectorAll(".profileSection ul:not(.inline) li[data-info]").forEach((li) => {
+        li.addEventListener("click", () => {
+            let rightInfo = li.closest(".profileSection").querySelector(".rightInfo");
+            if (rightInfo.innerHTML === li.dataset.info) {
+                if (rightInfo.classList.contains("active")) {
+                    hideRightInfo(rightInfo);
+                } else {
+                    showRightInfo(li, rightInfo);
+                }
+            } else if (li.dataset.info) {
+                rightInfo.classList.remove("visible");
+                showRightInfo(li, rightInfo);
+            } else {
+                hideRightInfo(rightInfo);
+            }
+        });
+    });
+
     document.getElementById("projectClose").addEventListener("click", () => {
         document.getElementById("projectInfo").classList.remove("showInfo");
     });
@@ -262,12 +280,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.querySelectorAll("#gallery img").forEach(() => {});
 
-    document.querySelectorAll("a, .nameFirstLetter, button, #colorPicker #tintLabel, #profilePicture, #divider, .project, .project .github, .project .openLink, .tag, .close, #projectGithub, #projectLink").forEach((element) => {
+    document.querySelectorAll("a, .nameFirstLetter, button, #colorPicker #tintLabel, #profilePicture, #divider, .project, .project .github, .project .openLink, .tag, .close, #projectGithub, #projectLink, .allProjectWrapper").forEach((element) => {
         element.classList.add("usesTint");
     });
 
     lastScrollTop = window.pageYOffset !== undefined ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
 });
+
+function hideRightInfo(rightInfo) {
+    document.querySelectorAll(".profileSection li.active").forEach((li) => {
+        li.classList.remove("active");
+    });
+    rightInfo.classList.remove("visible");
+    setTimeout(() => {
+        rightInfo.innerHTML = "";
+        rightInfo.classList.remove("active");
+    }, 600);
+}
+
+function showRightInfo(li, rightInfo) {
+    document.querySelectorAll(".profileSection li.active").forEach((li) => {
+        li.classList.remove("active");
+    });
+    li.classList.add("active");
+    rightInfo.classList.add("active");
+    setTimeout(() => {
+        rightInfo.innerHTML = li.dataset.info;
+        rightInfo.classList.add("visible");
+    }, 600);
+}
 
 function removeTag(tagValue) {
     const index = tags.indexOf(tagValue);
@@ -413,38 +454,83 @@ document.addEventListener("mousemove", (event) => {
     mouse.style.top = y - scrollTop + "px";
 });
 
+let scrolling = false;
+
 document.addEventListener("scroll", () => {
     let currentScrollTop = window.pageYOffset !== undefined ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
-    let height = pageHeight - 5;
-    if (lastScrollTop === 0) {
-        window.scrollTo({
-            top: pageHeight,
-            left: 0,
-            behavior: "smooth",
-        });
-    } else if ((lastScrollTop === height && currentScrollTop < lastScrollTop) || (lastScrollTop >= height && currentScrollTop < height)) {
-        window.scrollTo({
-            top: 0,
-            left: 0,
-            behavior: "smooth",
-        });
-    } else if (currentScrollTop < height) {
-        if (currentScrollTop < lastScrollTop) {
-            window.scrollTo({
-                top: 0,
-                left: 0,
-                behavior: "smooth",
-            });
-        } else {
+    if (!scrolling) {
+        let height = pageHeight - 5;
+        if (lastScrollTop === 0) {
             window.scrollTo({
                 top: pageHeight,
                 left: 0,
                 behavior: "smooth",
             });
+            onScrollFinish(pageHeight);
+        } else if ((lastScrollTop === height && currentScrollTop < lastScrollTop) || (lastScrollTop >= height && currentScrollTop < height)) {
+            window.scrollTo({
+                top: 0,
+                left: 0,
+                behavior: "smooth",
+            });
+            onScrollFinish(0);
+        } else if (currentScrollTop < height) {
+            if (currentScrollTop < lastScrollTop) {
+                window.scrollTo({
+                    top: 0,
+                    left: 0,
+                    behavior: "smooth",
+                });
+                onScrollFinish(0);
+            } else {
+                window.scrollTo({
+                    top: pageHeight,
+                    left: 0,
+                    behavior: "smooth",
+                });
+                onScrollFinish(pageHeight);
+            }
         }
     }
     lastScrollTop = currentScrollTop;
 });
+
+function onScrollFinish(target) {
+    scrolling = true;
+    let position = null;
+    const checkIfScrollIsStatic = setInterval(() => {
+        if (position === window.scrollY) {
+            scrolling = false;
+            if (Math.round(target) !== Math.round(lastScrollTop)) {
+                let currentScrollTop = window.pageYOffset !== undefined ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
+                if (currentScrollTop < lastScrollTop || target === 0) {
+                    window.scrollTo({
+                        top: 0,
+                        left: 0,
+                        behavior: "smooth",
+                    });
+                    onScrollFinish(0);
+                } else if (currentScrollTop < pageHeight) {
+                    window.scrollTo({
+                        top: pageHeight,
+                        left: 0,
+                        behavior: "smooth",
+                    });
+                    onScrollFinish(pageHeight);
+                }
+                lastScrollTop = currentScrollTop;
+            }
+            clearInterval(checkIfScrollIsStatic);
+        }
+        position = window.scrollY;
+    }, 50);
+    /*const checkIfScrollToIsFinished = setInterval(() => {
+        if (Math.round(target) === Math.round(lastScrollTop)) {
+            scrolling = false;
+            clearInterval(checkIfScrollToIsFinished);
+        }
+    }, 25);*/
+}
 
 document.addEventListener("wheel", checkScrollDirection);
 
@@ -453,18 +539,20 @@ let pageWidth;
 let pageHeight;
 
 function checkScrollDirection(event) {
-    if (checkScrollDirectionIsUp(event)) {
-        if (mouseDiameter < pageWidth) {
-            mouseDiameter += 2;
+    if (event.shiftKey) {
+        if (checkScrollDirectionIsUp(event)) {
+            if (mouseDiameter < pageWidth) {
+                mouseDiameter += 2;
+            }
+        } else {
+            if (mouseDiameter > 15) {
+                mouseDiameter -= 2;
+            }
         }
-    } else {
-        if (mouseDiameter > 15) {
-            mouseDiameter -= 2;
-        }
+        let mouse = document.getElementById("mouse");
+        mouse.style.width = mouseDiameter + "px";
+        mouse.style.height = mouseDiameter + "px";
     }
-    let mouse = document.getElementById("mouse");
-    mouse.style.width = mouseDiameter + "px";
-    mouse.style.height = mouseDiameter + "px";
 }
 
 function checkScrollDirectionIsUp(event) {

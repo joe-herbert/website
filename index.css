@@ -24,8 +24,10 @@
 }
 
 :root {
-    --dev-bg: #111;
-    --dev-fg: #fff;
+    color-scheme: dark light;
+    --dev-bg: light-dark(#eee, #111);
+    --dev-bg-accent: light-dark(#bebebe, #303030);
+    --dev-fg: light-dark(#000, #fff);
 }
 
 :root.rainbow .usesTint,
@@ -481,25 +483,111 @@ h2 {
     text-align: center;
 }
 
-ul {
+h2:has(+ .profileHeaderNote) {
+    margin-bottom: 5px;
+}
+
+.profileHeaderNote {
+    display: table;
+    font-size: 18px;
+    margin: 0 auto 10px;
+}
+
+.profileSection {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.profileSection ul {
+    flex: 2 1;
+    align-content: center;
     margin: 10px;
     text-align: center;
     padding: 0;
     font-size: 0;
+    position: relative;
+    min-width: 400px;
 }
 
-li {
-    list-style: none;
-    margin: 10px auto;
-    padding: 5px 10px;
-    background-color: #303030;
-    display: table;
-    font-size: 18px;
+.profileSection ul:not(.inline):has(li.active) li {
+    left: 0;
+    transform: translateX(0);
 }
 
-ul.inline li {
+.profileSection li.active {
+    margin-left: 25px;
+}
+
+.profileSection li::before {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    left: -25px;
+    content: "➤";
+    color: var(--tint);
+    transition:
+        opacity 0.6s,
+        visibility 0.6s;
+}
+
+.profileSection li.active::before {
+    opacity: 1;
+    visibility: visible;
+}
+
+.profileSection ul.inline li {
     display: inline-block;
     margin: 5px;
+    position: static;
+    left: 0;
+    transform: none;
+}
+
+.profileSection li {
+    list-style: none;
+    margin: 10px 0;
+    padding: 5px 10px;
+    background-color: var(--dev-bg-accent);
+    display: table;
+    font-size: 18px;
+    transition:
+        left 0.6s,
+        transform 0.6s,
+        margin 0.6s;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.profileSection ul:not(.inline) li[data-info] {
+    cursor: pointer;
+}
+
+.rightInfo {
+    flex: 0 0 auto;
+    align-content: center;
+    width: 0px;
+    min-width: 300px;
+    overflow: hidden;
+    transition:
+        flex 0.6s,
+        width 0.6s,
+        min-width 0.6s,
+        opacity 0.6s;
+    opacity: 0;
+    text-align: right;
+}
+
+.rightInfo:empty {
+    min-width: 0px;
+}
+
+.rightInfo.active {
+    flex: 1 1 auto;
+}
+
+.rightInfo.visible {
+    opacity: 1;
 }
 
 .role {
@@ -836,6 +924,10 @@ ul.inline li {
     }
 }
 
+#allProjectsClose {
+    position: fixed;
+}
+
 .close {
     background-color: transparent;
     color: var(--tint);
@@ -906,7 +998,7 @@ ul.inline li {
     position: fixed;
     top: 0;
     left: 0;
-    background-color: #000c;
+    background-color: rgba(var(--dev-bg), 0.75);
     z-index: -1;
 }
 
