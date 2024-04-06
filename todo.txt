@@ -10,3 +10,5 @@ Transition height of rightInfo
 Check how clip path hexagons appear on other browsers
 
 Mobile version
+
+Do I need to add cookies/localstorage warning?
