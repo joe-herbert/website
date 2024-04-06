@@ -93,7 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
             let rightInfo = li.closest(".profileSection").querySelector(".rightInfo");
             if (rightInfo.innerHTML === li.dataset.info) {
                 if (rightInfo.classList.contains("active")) {
-                    hideRightInfo(rightInfo);
+                    hideRightInfo(li, rightInfo);
                 } else {
                     showRightInfo(li, rightInfo);
                 }
@@ -101,7 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 rightInfo.classList.remove("visible");
                 showRightInfo(li, rightInfo);
             } else {
-                hideRightInfo(rightInfo);
+                hideRightInfo(li, rightInfo);
             }
         });
     });
@@ -287,21 +287,52 @@ document.addEventListener("DOMContentLoaded", () => {
     lastScrollTop = window.pageYOffset !== undefined ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
 });
 
-function hideRightInfo(rightInfo) {
-    document.querySelectorAll(".profileSection li.active").forEach((li) => {
-        li.classList.remove("active");
-    });
+function hideRightInfo(li, rightInfo) {
+    li.closest(".profileSection")
+        .querySelectorAll("li.active")
+        .forEach((li) => {
+            li.classList.remove("active");
+        });
     rightInfo.classList.remove("visible");
     setTimeout(() => {
         rightInfo.innerHTML = "";
+        rightInfo.style.height = "0px"; // li.parentElement.getBoundingClientRect().height + "px";
         rightInfo.classList.remove("active");
     }, 600);
 }
 
 function showRightInfo(li, rightInfo) {
-    document.querySelectorAll(".profileSection li.active").forEach((li) => {
-        li.classList.remove("active");
-    });
+    li.closest(".profileSection")
+        .querySelectorAll("li.active")
+        .forEach((li) => {
+            li.classList.remove("active");
+        });
+    let tmpDiv = document.createElement("div");
+    tmpDiv.innerHTML = li.dataset.info;
+    let width = li.closest(".profileSection").getBoundingClientRect().width / 2;
+    tmpDiv.style.width = width + "px";
+    tmpDiv.style.textAlign = "right";
+    tmpDiv.style.padding = "10px";
+    tmpDiv.style.position = "absolute";
+    tmpDiv.style.top = "-100vh";
+    tmpDiv.style.left = "-100vw";
+    document.body.appendChild(tmpDiv);
+    let height = tmpDiv.getBoundingClientRect().height;
+    document.body.removeChild(tmpDiv);
+    let tmpUlWrapper = document.createElement("div");
+    tmpUlWrapper.classList.add("profileSection");
+    tmpUlWrapper.style.position = "absolute";
+    tmpUlWrapper.style.top = "-100vh";
+    tmpUlWrapper.style.left = "-100vw";
+    tmpUlWrapper.style.width = width + "px";
+    let tmpUl = document.createElement("ul");
+    tmpUl.innerHTML = li.parentElement.innerHTML;
+    tmpUlWrapper.appendChild(tmpUl);
+    document.body.appendChild(tmpUlWrapper);
+    let ulHeight = tmpUlWrapper.getBoundingClientRect().height;
+    document.body.removeChild(tmpUlWrapper);
+    if (height < ulHeight) height = ulHeight;
+    rightInfo.style.height = height + "px";
     li.classList.add("active");
     rightInfo.classList.add("active");
     setTimeout(() => {
@@ -567,8 +598,9 @@ window.addEventListener("resize", refreshPageDimensions);
 function refreshPageDimensions() {
     pageWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
     pageHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+    let currentScrollTop = window.pageYOffset !== undefined ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
 
-    if (currentPage === "dev") {
+    if (currentPage === "dev" && currentScrollTop < pageHeight) {
         window.scrollTo({
             top: pageHeight,
             left: 0,
@@ -576,7 +608,7 @@ function refreshPageDimensions() {
         });
     } else if (currentPage === "pho") {
         window.scrollTo({
-            top: 0,
+            top: currentScrollTop,
             left: pageWidth,
             behavior: "smooth",
         });

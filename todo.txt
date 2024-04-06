@@ -6,8 +6,7 @@ Recaptcha for contact form
 
 Gallery section
 
-Transition height of rightInfo
-Check how clip path hexagons appear on other browsers
+Transition height of rightInfCheck how clip path hexagons appear on other browsers
 
 Mobile version
 
