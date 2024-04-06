@@ -1,7 +1,12 @@
 Add more portfolios
 Add more info when clicking skills/experience etc.
+
 PHP for contact form
 Recaptcha for contact form
+
 Gallery section
+
 Transition height of rightInfo
 Check how clip path hexagons appear on other browsers
+
+Mobile version
