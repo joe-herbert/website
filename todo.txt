@@ -12,3 +12,6 @@ Mobile version
 
 Narrow page clicking profile skill transition
 Width 878px module list goes off right hand of screen - max-width 100%?
+
+Design logo
+Make favicon
