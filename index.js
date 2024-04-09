@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("tintLabel").addEventListener("contextmenu", (event) => {
         event.preventDefault();
         let tintColor = lightMode ? defaultTintLight : defaultTintDark;
-        localStorage.setItem("tint", tintColor);
+        localStorage.removeItem("tint", tintColor);
         document.querySelectorAll(".usesTint").forEach((el) => {
             el.style.setProperty("--tint", tintColor);
         });
