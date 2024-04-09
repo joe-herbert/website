@@ -8,9 +8,13 @@ const defaultTintLight = "#955df7";
 let lightMode = false;
 
 document.addEventListener("DOMContentLoaded", () => {
-    if (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) {
+    let preferredMode = localStorage.getItem("mode");
+    if (preferredMode === "light" || (!preferredMode && window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches)) {
         lightMode = true;
         document.getElementById("lightDarkSwitch").checked = true;
+        document.querySelector(":root").classList.add("light");
+    } else if (preferredMode === "dark") {
+        document.querySelector(":root").classList.add("dark");
     }
     setTimeout(() => {
         document.body.classList.add("loaded");
@@ -83,6 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(() => {
             if (checked) {
                 lightMode = true;
+                localStorage.setItem("mode", "light");
                 pJSDom[0].pJS.particles.color.value = "#000000";
                 pJSDom[0].pJS.particles.line_linked.color = "#000000";
                 pJSDom[0].pJS.fn.particlesRefresh();
@@ -90,6 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 document.querySelector(":root").classList.remove("dark");
             } else {
                 lightMode = false;
+                localStorage.setItem("mode", "dark");
                 pJSDom[0].pJS.particles.color.value = "#ffffff";
                 pJSDom[0].pJS.particles.line_linked.color = "#ffffff";
                 pJSDom[0].pJS.fn.particlesRefresh();
