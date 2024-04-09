@@ -155,6 +155,7 @@ a {
     background-color: var(--dev-bg);
     overflow: hidden;
     text-align: center;
+    transition: background-color 0.6s;
 }
 
 #mouse {
@@ -282,7 +283,7 @@ button:active {
 
 .arrow:before,
 .arrow:after {
-    background: var(--dev-fg);
+    background-color: var(--dev-fg);
     content: "";
     display: block;
     height: 4px;
@@ -290,6 +291,7 @@ button:active {
     top: 0;
     left: 0;
     width: 60px;
+    transition: background-color 0.6s;
 }
 
 .arrow:before {
@@ -432,7 +434,6 @@ button:active {
         opacity 0.6s,
         visibility 0.6s,
         transform 0.6s;
-    transition-delay: 100ms;
 }
 
 #colorPicker #tintLabel:hover ~ .switch-toggle,
@@ -528,6 +529,9 @@ button:active {
     overflow-y: auto;
     overflow-x: hidden;
     scroll-behavior: smooth;
+    transition:
+        background-color 0.6s,
+        color 0.6s;
 }
 
 #profile {
@@ -645,7 +649,9 @@ h2:has(+ .profileHeaderNote) {
     transition:
         left 0.6s,
         transform 0.6s,
-        margin 0.6s;
+        margin 0.6s,
+        background-color 0.6s,
+        color 0.6s;
     position: relative;
     left: 50%;
     transform: translateX(-50%);
@@ -945,7 +951,8 @@ h2:has(+ .profileHeaderNote) {
     z-index: 9;
     transition:
         opacity 0.6s,
-        visibility 0.6s;
+        visibility 0.6s,
+        background-color 0.6s;
     padding: 5vw;
     overflow: auto;
 }
@@ -1091,13 +1098,14 @@ h2:has(+ .profileHeaderNote) {
     opacity: 0;
     transition:
         opacity 0.6s,
-        visibility 0.6s;
+        visibility 0.6s,
+        background-color 0.6s,
+        box-shadow 0.6s;
 }
 
 #projectInfo.showInfo {
     visibility: visible;
     opacity: 1;
-    transition: opacity 0.6s;
 }
 
 #projectInfo::before {
@@ -1109,6 +1117,7 @@ h2:has(+ .profileHeaderNote) {
     left: 0;
     background-color: rgba(var(--dev-bg), 0.75);
     z-index: -1;
+    transition: background-color 0.6s;
 }
 
 #projectTags {
@@ -1182,7 +1191,8 @@ textarea {
     margin: 10px 0 20px;
     transition:
         width 0.6s,
-        border-bottom-color 0.6s;
+        border-bottom-color 0.6s,
+        color 0.6s;
     color: var(--dev-fg);
     padding: 10px 0;
     font-size: 20px;
