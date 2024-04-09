@@ -10,6 +10,7 @@ let lightMode = false;
 document.addEventListener("DOMContentLoaded", () => {
     if (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) {
         lightMode = true;
+        document.getElementById("lightDarkSwitch").checked = true;
     }
     setTimeout(() => {
         document.body.classList.add("loaded");
@@ -76,6 +77,35 @@ document.addEventListener("DOMContentLoaded", () => {
         root.classList.remove("rainbow");
         tint.value = tintColor;
         return false;
+    });
+    document.getElementById("lightDarkSwitch").addEventListener("change", (event) => {
+        let checked = event.currentTarget.checked;
+        setTimeout(() => {
+            if (checked) {
+                lightMode = true;
+                pJSDom[0].pJS.particles.color.value = "#000000";
+                pJSDom[0].pJS.particles.line_linked.color = "#000000";
+                pJSDom[0].pJS.fn.particlesRefresh();
+                document.querySelector(":root").classList.add("light");
+                document.querySelector(":root").classList.remove("dark");
+            } else {
+                lightMode = false;
+                pJSDom[0].pJS.particles.color.value = "#ffffff";
+                pJSDom[0].pJS.particles.line_linked.color = "#ffffff";
+                pJSDom[0].pJS.fn.particlesRefresh();
+                document.querySelector(":root").classList.add("dark");
+                document.querySelector(":root").classList.remove("light");
+            }
+            let tintColor = document.getElementById("tintLabel").value;
+            if (!tintColor || tintColor === defaultTintDark || tintColor === defaultTintLight) {
+                tintColor = lightMode ? defaultTintLight : defaultTintDark;
+                document.querySelector(":root").style.setProperty("--tint", tintColor);
+                document.querySelectorAll(".usesTint").forEach((el) => {
+                    el.style.setProperty("--tint", tintColor);
+                });
+                tint.value = tintColor;
+            }
+        }, 700);
     });
 
     document.getElementById("photo").addEventListener("click", () => {
@@ -295,7 +325,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.querySelectorAll("#gallery img").forEach(() => {});
 
-    document.querySelectorAll("a, .nameFirstLetter, button, #colorPicker #tintLabel, #profilePicture, #divider, .project, .project .github, .project .openLink, .tag, .close, #projectGithub, #projectLink, .allProjectWrapper, .liArrow").forEach((element) => {
+    document.querySelectorAll("a, .nameFirstLetter, button, #colorPicker #tintLabel, #profilePicture, #divider, .project, .project .github, .project .openLink, .tag, .close, #projectGithub, #projectLink, .allProjectWrapper, .liArrow, .switch-toggle").forEach((element) => {
         element.classList.add("usesTint");
         if (tintColor !== "rainbow") {
             element.style.setProperty("--tint", tintColor);

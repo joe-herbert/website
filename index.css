@@ -30,13 +30,21 @@
 }
 
 :root {
-    color-scheme: dark light;
     --dev-bg: #111;
-    --dev-bg: light-dark(#fbfbfb, #111);
     --dev-bg-accent: #303030;
-    --dev-bg-accent: light-dark(#dadee1, #303030);
     --dev-fg: #fff;
+    color-scheme: dark light;
+    --dev-bg: light-dark(#fbfbfb, #111);
+    --dev-bg-accent: light-dark(#dadee1, #303030);
     --dev-fg: light-dark(#000, #fff);
+}
+
+:root.light {
+    color-scheme: light;
+}
+
+:root.dark {
+    color-scheme: dark;
 }
 
 :root.rainbow .usesTint,
@@ -350,9 +358,9 @@ button:active {
 
 #colorPicker #tintLabel {
     background-color: var(--tint);
-    width: 50px;
-    height: 50px;
-    border-radius: 50px;
+    width: 56px;
+    height: 56px;
+    border-radius: 56px;
     display: block;
     border: 1px solid white;
     cursor: pointer;
@@ -380,11 +388,13 @@ button:active {
     background-color: #fffa;
     color: #000;
     opacity: 0;
+    visibility: hidden;
     padding: 10px 20px;
     border-radius: 50px 50px 0;
     transition:
         transform 0.6s,
-        opacity 0.6s;
+        opacity 0.6s,
+        visibility 0.6s;
     font-size: 16px;
     line-height: 1.3em;
     transform: translateX(-100%);
@@ -392,11 +402,83 @@ button:active {
 
 #colorPicker #tintLabel:hover::after {
     opacity: 1;
+    visibility: visible;
     transform: translate(-100%, -100%);
 }
 
 #colorPicker #tint {
     display: none;
+}
+
+.switch-toggle {
+    background-color: var(--dev-bg);
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    line-height: 1;
+    padding-top: 4px;
+    position: absolute;
+    right: 70px;
+    top: 0;
+    box-shadow: 0px 0px 15px 0px var(--tint);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+        box-shadow 0.6s,
+        background-color 0.6s,
+        opacity 0.6s,
+        visibility 0.6s,
+        transform 0.6s;
+    transition-delay: 100ms;
+}
+
+#colorPicker #tintLabel:hover ~ .switch-toggle,
+.switch-toggle:hover {
+    opacity: 1;
+    visibility: visible;
+}
+
+.switch-toggle:hover {
+    transform: scale(1.1);
+}
+
+.switch-toggle:active {
+    transform: scale(0.9);
+}
+
+.switch-icon svg {
+    fill: var(--dev-fg);
+    transition: fill 0.6s;
+}
+
+.switch-input {
+    display: none;
+}
+
+.switch-icon {
+    grid-column: 1 / 1;
+    grid-row: 1 / 1;
+    transition: transform 500ms;
+}
+
+.switch-icon--moon {
+    transition-delay: 200ms;
+}
+
+.switch-icon--sun {
+    transform: scale(0);
+}
+
+.switch-input:checked + .switch-icon--moon {
+    transform: rotate(360deg) scale(0);
+}
+
+.switch-input:checked ~ .switch-icon--sun {
+    transition-delay: 200ms;
+    transform: scale(1) rotate(360deg);
 }
 
 /* ------- Gallery ------- */
