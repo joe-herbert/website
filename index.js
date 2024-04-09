@@ -295,8 +295,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.querySelectorAll("#gallery img").forEach(() => {});
 
-    document.querySelectorAll("a, .nameFirstLetter, button, #colorPicker #tintLabel, #profilePicture, #divider, .project, .project .github, .project .openLink, .tag, .close, #projectGithub, #projectLink, .allProjectWrapper").forEach((element) => {
+    document.querySelectorAll("a, .nameFirstLetter, button, #colorPicker #tintLabel, #profilePicture, #divider, .project, .project .github, .project .openLink, .tag, .close, #projectGithub, #projectLink, .allProjectWrapper, .liArrow").forEach((element) => {
         element.classList.add("usesTint");
+        if (tintColor !== "rainbow") {
+            element.style.setProperty("--tint", tintColor);
+        }
     });
 
     lastScrollTop = window.pageYOffset !== undefined ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
@@ -322,7 +325,9 @@ function showRightInfo(li, rightInfo) {
         li.classList.remove("active");
     });
     let tmpRightWrapper = document.createElement("div");
-    let width = profileSection.getBoundingClientRect().width / 2;
+    let width = profileSection.getBoundingClientRect().width;
+    if (pageWidth > 900) width = width / 2;
+    if (width > 300) width = 300;
     tmpRightWrapper.classList.add("profileSection");
     tmpRightWrapper.style.width = width + "px";
     tmpRightWrapper.style.padding = "10px";

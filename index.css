@@ -32,7 +32,7 @@
 :root {
     color-scheme: dark light;
     --dev-bg: #111;
-    --dev-bg: light-dark(#ebedf3, #111);
+    --dev-bg: light-dark(#fbfbfb, #111);
     --dev-bg-accent: #303030;
     --dev-bg-accent: light-dark(#dadee1, #303030);
     --dev-fg: #fff;
@@ -627,6 +627,16 @@ h2:has(+ .profileHeaderNote) {
     margin: 80px 0 100px 0;
 }
 
+@media (max-width: 900px) {
+    .rightInfo,
+    .rightInfo.active {
+        flex: 1 1 100%;
+    }
+    .rightInfo:empty {
+        min-width: 300px;
+    }
+}
+
 /* ------- Portfolio ------- */
 
 #portfolio {
@@ -1085,7 +1095,7 @@ input,
 textarea {
     outline: none;
     border: none;
-    border-bottom: 1px solid white;
+    border-bottom: 1px solid var(--dev-fg);
     background-color: inherit;
     margin: 10px 0 20px;
     transition:
