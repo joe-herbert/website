@@ -597,12 +597,11 @@ h2:has(+ .profileHeaderNote) {
 .profileSection ul {
     flex: 1 1;
     align-content: center;
-    padding: 10px;
     text-align: center;
     padding: 0;
     font-size: 0;
     position: relative;
-    min-width: 400px;
+    min-width: min(400px, 100%);
 }
 
 .profileSection ul:not(.inline):has(li.active) li {
