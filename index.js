@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.body.classList.add("loaded");
     }, 50);
 
-    particlesJS.load("particles", "assets/particles.json", function () {
+    particlesJS.load("particles", `assets/particles${lightMode ? "Light" : ""}.json`, function () {
         console.log("callback - particles.js config loaded");
     });
 
@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let tintColor = localStorage.getItem("tint");
     const supportsAtProperty = window.getComputedStyle(document.documentElement).getPropertyValue("--tint") !== "";
     if (supportsAtProperty) {
-        document.getElementById("tintLabel").dataset.message = `- Click to change the page tint colour\n- Right click to reset\n- Ctrl + Click for rainbow mode`;
+        document.getElementById("tintLabel").dataset.message = `- Click to change the page tint colour\n- Right click to reset\n- Ctrl/Cmd + Click for rainbow mode`;
     }
     if (tintColor === "rainbow" && !supportsAtProperty) {
         tintColor = lightMode ? defaultTintLight : defaultTintDark;
@@ -47,14 +47,18 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelector(":root").style.setProperty("--tint", tintColor);
         tint.value = tintColor;
     }
-    tint.addEventListener("change", (event) => {
+    tint.addEventListener("input", (event) => {
+        let color = event.currentTarget.value;
+        document.querySelectorAll(".usesTint").forEach((el) => {
+            el.style.setProperty("--tint", color);
+        });
         let root = document.querySelector(":root");
-        root.style.setProperty("--tint", event.currentTarget.value);
+        root.style.setProperty("--tint", color);
         root.classList.remove("rainbow");
-        localStorage.setItem("tint", event.currentTarget.value);
+        localStorage.setItem("tint", color);
     });
     document.getElementById("tintLabel").addEventListener("click", (event) => {
-        if (event.ctrlKey && supportsAtProperty) {
+        if ((event.ctrlKey || event.metaKey) && supportsAtProperty) {
             event.preventDefault();
             document.querySelector(":root").classList.add("rainbow");
             localStorage.setItem("tint", "rainbow");
@@ -64,6 +68,9 @@ document.addEventListener("DOMContentLoaded", () => {
         event.preventDefault();
         let tintColor = lightMode ? defaultTintLight : defaultTintDark;
         localStorage.setItem("tint", tintColor);
+        document.querySelectorAll(".usesTint").forEach((el) => {
+            el.style.setProperty("--tint", tintColor);
+        });
         let root = document.querySelector(":root");
         root.style.setProperty("--tint", tintColor);
         root.classList.remove("rainbow");

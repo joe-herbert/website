@@ -528,12 +528,11 @@ h2:has(+ .profileHeaderNote) {
     margin-left: 25px;
 }
 
-.profileSection li::before {
+.profileSection li .liArrow {
     opacity: 0;
     visibility: hidden;
     position: absolute;
     left: -25px;
-    content: "\27A4";
     color: var(--tint);
     transition:
         color 0.6s,
@@ -541,7 +540,7 @@ h2:has(+ .profileHeaderNote) {
         visibility 0.6s;
 }
 
-.profileSection li.active::before {
+.profileSection li.active .liArrow {
     opacity: 1;
     visibility: visible;
 }
