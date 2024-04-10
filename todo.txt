@@ -3,12 +3,11 @@ Add more info when clicking skills/experience etc.
 
 PHP for contact form
 Recaptcha for contact form
+Convert xhttp to fetch
 
 Gallery section
 
 Check how clip path hexagons appear on other browsers
-
-Mobile version
 
 Design logo
 Make favicon

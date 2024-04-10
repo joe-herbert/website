@@ -186,18 +186,19 @@
                     <input type="email" name="email" id="emailInput" placeholder=" " oninvalid="this.setCustomValidity('This must be a valid email address')" oninput="this.setCustomValidity('')" required /><br />
                     <label for="messageInput">What would you like to say?</label><br />
                     <textarea name="message" id="messageInput" placeholder=" " required></textarea><br />
-                    <span id="contactFormSuccess" class="hide">Your message was successfully sent! I'll be in touch with you soon.</span>
-                    <span id="contactFormError" class="hide">Your message couldn't be sent. Please try again later or email <a href="mailto:joe@joeherbert.dev">joe@joeherbert.dev</a>.</span>
+                    <span id="contactFormSuccess" class="hideFormMessage">Your message was successfully sent! I'll be in touch with you soon.</span>
+                    <span id="contactFormError" class="hideFormMessage">Your message couldn't be sent. Please try again later or email <a href="mailto:joe@joeherbert.dev">joe@joeherbert.dev</a>.</span>
                     <div id="formSpinner" class="spinner-square hide">
                         <div class="square-1 square"></div>
                         <div class="square-2 square"></div>
                         <div class="square-3 square"></div>
                     </div>
-                    <button class="g-recaptcha" data-sitekey="6LdQP2EpAAAAADfTjyDwNA5ptSqvr8QIQR-QWJAa" data-callback="onSubmit" data-action="submit" id="btnSubmit">Submit</button>
+                    <button class="g-recaptcha" data-sitekey="6LfV7LYpAAAAAH4ERzVaFcV78SPDpO03w8iKBHaZ" data-callback="onSubmit" data-action="submit" id="btnSubmit">Submit</button>
                 </form>
             </div>
         </div>
     </body>
     <script src="portfolio.js"></script>
     <script src="index.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js"></script>
 </html>
