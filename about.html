@@ -1,0 +1,152 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
+        <title>About joeherbert.dev</title>
+        <style>
+            :root {
+                color-scheme: dark light;
+                --dev-bg: #111;
+                --dev-fg: #fff;
+                --dev-bg: light-dark(#fbfbfb, #111);
+                --dev-fg: light-dark(#000, #fff);
+            }
+
+            @font-face {
+                font-family: "Dosis";
+                src:
+                    url("assets/fonts/Dosis.woff2") format("woff2"),
+                    url("assets/fonts/Dosis.ttf") format("truetype");
+                font-weight: 1 999;
+            }
+
+            html {
+                width: 100%;
+                height: 100%;
+                position: relative;
+            }
+
+            .wrapper {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                text-align: center;
+                font-family: Dosis, sans-serif;
+                font-size: 1.5em;
+            }
+
+            body.light {
+                color-scheme: light;
+            }
+
+            body.dark {
+                color-scheme: dark;
+            }
+
+            a {
+                color: var(--dev-fg);
+                text-decoration: none;
+                font-style: italic;
+                display: table;
+                margin: 0 auto;
+                transition: color 0.6s;
+            }
+
+            a.inline {
+                display: inline;
+            }
+
+            a:hover {
+                color: var(--tint);
+            }
+
+            button {
+                position: fixed;
+                top: 30px;
+                left: 30px;
+                display: block;
+                padding: 5px 20px;
+                border: none;
+                color: var(--dev-fg);
+                background-color: var(--tint);
+                font-size: 20px;
+                font-family: "Quicksand", sans-serif;
+                text-transform: uppercase;
+                line-height: 35px;
+                transition:
+                    transform 0.4s,
+                    color 0.4s,
+                    background-color 0.4s,
+                    box-shadow 0.4s;
+                cursor: pointer;
+                letter-spacing: 2px;
+                border-radius: 0;
+                z-index: 3;
+                box-shadow: 0px 0px 15px -5px var(--tint);
+                max-width: 80vw;
+            }
+
+            button:hover {
+                background-color: var(--dev-fg);
+                color: var(--tint);
+            }
+
+            button:active {
+                transform: scale(0.95);
+                -webkit-transform: scale(0.95);
+                -moz-transform: scale(0.95);
+                -ms-transform: scale(0.95);
+                -o-transform: scale(0.95);
+            }
+        </style>
+    </head>
+    <body>
+        <button id="back">&#8592; Back</button>
+        <div class="wrapper">
+            I developed this site using HTML, CSS, JS and a bit of PHP
+            <h3>Modern technologies used</h3>
+            <a href="https://developer.mozilla.org/en-US/docs/Web/API/CSS_Properties_and_Values_API">Houdini API - CSS Properties</a>
+            <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/color-mix">CSS color-mix()</a>
+            <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/light-dark">CSS light-dark()</a>
+            <a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Howto/Use_data_attributes">HTML5 Data Attributes</a>
+            <a href="https://web.dev/blog/viewport-units">svh and dvh units</a>
+            <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog">Dialog element</a>
+            <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/:has">CSS :has()</a>
+            <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_nesting">CSS Nesting</a>
+            <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/inert">HTML Inert Attribute</a>
+            <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/@container">CSS @container</a>
+            <h3>Credits</h3>
+            <a href="https://vincentgarreau.com/particles.js/">Particles.js</a>
+            <a href="https://uiverse.io/Creatlydev/massive-quail-70">Light/dark switch</a>
+            <a href="https://fontawesome.com/">Font Awesome</a>
+            <a href="https://www.google.com/recaptcha/about/">Google reCAPTCHA</a>
+            <a href="https://www.ip2location.io/">IP2Location API</a>
+            Lots of <a href="https://developer.mozilla.org/" class="inline">MDN</a> and <a href="https://stackoverflow.com/" class="inline">Stack Overflow</a>
+        </div>
+    </body>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            let preferredMode = localStorage.getItem("mode");
+            if (preferredMode === "light") {
+                document.body.classList.add("light");
+            } else if (preferredMode === "dark") {
+                document.body.classList.add("dark");
+            }
+            const defaultTintDark = "#753ed6";
+            const defaultTintLight = "#955df7";
+            let tintColor = localStorage.getItem("tint");
+            if (preferredMode === "light" || (!preferredMode && window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches)) {
+                if (tintColor === defaultTintDark) tintColor = defaultTintLight;
+                document.querySelector(":root").style.setProperty("--tint", tintColor || defaultTintLight);
+            } else {
+                if (tintColor === defaultTintLight) tintColor = defaultTintDark;
+                document.querySelector(":root").style.setProperty("--tint", tintColor || defaultTintDark);
+            }
+            document.getElementById("back").addEventListener("click", () => {
+                window.location.href = "/";
+            });
+        });
+    </script>
+</html>

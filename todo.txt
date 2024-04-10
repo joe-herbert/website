@@ -1,8 +1,6 @@
 Add more portfolios
 Add more info when clicking skills/experience etc.
 
-PHP for contact form
-Recaptcha for contact form
 Convert xhttp to fetch
 
 Gallery section

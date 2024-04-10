@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (window.matchMedia && window.matchMedia("(pointer: coarse)").matches) {
         touchPage = true;
     }
+
     setTimeout(() => {
         document.body.classList.add("loaded");
     }, 50);
@@ -52,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
         tint.value = tintColor;
     } else {
         tintColor = lightMode ? defaultTintLight : defaultTintDark;
-        localStorage.setItem("tint", tintColor);
+        //useStorage("tint", tintColor);
         document.querySelector(":root").style.setProperty("--tint", tintColor);
         tint.value = tintColor;
     }
@@ -64,13 +65,13 @@ document.addEventListener("DOMContentLoaded", () => {
         let root = document.querySelector(":root");
         root.style.setProperty("--tint", color);
         root.classList.remove("rainbow");
-        localStorage.setItem("tint", color);
+        useStorage("tint", color);
     });
     document.getElementById("tintLabel").addEventListener("click", (event) => {
         if ((event.ctrlKey || event.metaKey) && supportsAtProperty) {
             event.preventDefault();
             document.querySelector(":root").classList.add("rainbow");
-            localStorage.setItem("tint", "rainbow");
+            useStorage("tint", "rainbow");
         }
     });
     document.getElementById("tintLabel").addEventListener("contextmenu", (event) => {
@@ -91,7 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(() => {
             if (checked) {
                 lightMode = true;
-                localStorage.setItem("mode", "light");
+                useStorage("mode", "light");
                 pJSDom[0].pJS.particles.color.value = "#000000";
                 pJSDom[0].pJS.particles.line_linked.color = "#000000";
                 pJSDom[0].pJS.fn.particlesRefresh();
@@ -99,7 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 document.querySelector(":root").classList.remove("dark");
             } else {
                 lightMode = false;
-                localStorage.setItem("mode", "dark");
+                useStorage("mode", "dark");
                 pJSDom[0].pJS.particles.color.value = "#ffffff";
                 pJSDom[0].pJS.particles.line_linked.color = "#ffffff";
                 pJSDom[0].pJS.fn.particlesRefresh();
@@ -141,6 +142,19 @@ document.addEventListener("DOMContentLoaded", () => {
             behavior: "smooth",
         });
         currentPage = "landing";
+    });
+
+    document.getElementById("storageYes").addEventListener("click", () => {
+        localStorage.setItem("useStorage", true);
+        let dialog = document.getElementById("storageDialog");
+        localStorage.setItem(dialog.dataset.key, dialog.dataset.value);
+        dialog.close();
+    });
+
+    document.getElementById("storageNo").addEventListener("click", () => {
+        localStorage.setItem("useStorage", false);
+        let dialog = document.getElementById("storageDialog");
+        dialog.close();
     });
 
     document.querySelectorAll(".profileSection ul:not(.inline) li[data-info]").forEach((li) => {
@@ -298,6 +312,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 div.style.position = "absolute";
                 div.style.top = "-200vh";
                 div.style.left = "-200vw";
+                div.inert = true;
                 document.body.appendChild(div);
                 let height = div.getBoundingClientRect().height;
                 project.style.height = 235 + height + "px";
@@ -372,7 +387,7 @@ function showRightInfo(li, rightInfo) {
     let tmpRightWrapper = document.createElement("div");
     let width = profileSection.getBoundingClientRect().width;
     if (pageWidth > 900) width = width / 2;
-    if (width > 300) width = 300;
+    if (width < 300) width = 300;
     tmpRightWrapper.classList.add("profileSection");
     tmpRightWrapper.style.width = width + "px";
     tmpRightWrapper.style.padding = "10px";
@@ -383,9 +398,10 @@ function showRightInfo(li, rightInfo) {
     tmpRight.innerHTML = li.dataset.info;
     tmpRight.style.textAlign = "right";
     tmpRightWrapper.appendChild(tmpRight);
+    tmpRightWrapper.inert = true;
     document.body.appendChild(tmpRightWrapper);
     let height = tmpRight.getBoundingClientRect().height + 20;
-    document.body.removeChild(tmpRightWrapper);
+    //document.body.removeChild(tmpRightWrapper);
     let tmpUlWrapper = document.createElement("div");
     tmpUlWrapper.classList.add("profileSection");
     tmpUlWrapper.style.position = "absolute";
@@ -395,6 +411,7 @@ function showRightInfo(li, rightInfo) {
     let tmpUl = document.createElement("ul");
     tmpUl.innerHTML = li.parentElement.innerHTML;
     tmpUlWrapper.appendChild(tmpUl);
+    tmpUlWrapper.inert = true;
     document.body.appendChild(tmpUlWrapper);
     let ulHeight = tmpUlWrapper.getBoundingClientRect().height;
     document.body.removeChild(tmpUlWrapper);
@@ -406,6 +423,18 @@ function showRightInfo(li, rightInfo) {
         rightInfo.innerHTML = li.dataset.info;
         rightInfo.classList.add("visible");
     }, 600);
+}
+
+function useStorage(key, value) {
+    let useStorage = localStorage.getItem("useStorage");
+    if (useStorage === null) {
+        let dialog = document.getElementById("storageDialog");
+        dialog.dataset.key = key;
+        dialog.dataset.value = value;
+        dialog.show();
+    } else if (useStorage === "true") {
+        localStorage.setItem(key, value);
+    }
 }
 
 function removeTag(tagValue) {
@@ -511,7 +540,7 @@ function filterTags() {
             tmpProjects.style.left = "-100vw";
             tmpProjects.style.top = "-100vh";
             tmpProjects.style.width = "80vw";
-
+            tmpProjects.inert = true;
             document.body.appendChild(tmpProjects);
             projects.style.height = projectsHeight + "px";
             setTimeout(() => {

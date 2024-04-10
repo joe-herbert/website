@@ -48,7 +48,10 @@
             <button id="back">&#8593; Back</button>
             <h1>About Me</h1>
             <div id="profile">
-                <p>I'm a <span id="age">22</span> year old Software Developer based in Warwick. I have a passion for problem solving, which has driven me to create many projects since my first "Hello World!" back in 2014. On this page you'll find some more information about me and my work!</p>
+                <p>
+                    I'm a <span id="age">22</span> year old Software Developer based in Warwick, with a 1st Class Computer Science BSc from the University of Liverpool and experience as a freelance full-stack web developer. I have a passion for problem solving, which has driven me to create many projects since my first "Hello World!" back in 2014. On this page you'll find some more information
+                    about me and my work!
+                </p>
                 <img src="assets/me.jpg" alt="Profile picture" id="profilePicture" />
             </div>
             <h2>Technical Skills</h2>
@@ -83,12 +86,12 @@
             <div class="profileSection">
                 <ul>
                     <li
-                        data-info='In my gap year before university, I created websites for local businesses and individuals. By working directly with the client, I could offer a personal touch and create a high quality website which met their precise requirements. I continued this work part time throughout university and afterwards. Some of my work can be seen in my <a href="#portfolio">portfolio</a>.'
+                        data-info='In my gap year before university, I created websites for local businesses and individuals. By working directly with the client, I could offer a personal touch and create a high quality website which met their precise requirements. I developed simple HTML and CSS sites, sites with a server and database, and sites using a platform like WordPress or Wix. I continued this work part time throughout university and afterwards. Some of my work can be seen in my <a href="#portfolio">portfolio</a>.'
                     >
                         <div class="liArrow">&#x27A4;</div>
                         <span class="role">Freelance Web Developer</span> - <span class="company">Joe Herbert Web Development</span>
                     </li>
-                    <li data-info="Working for local charity <a href=&quot;https://mollyolly.co.uk/&quot;>Molly Olly's Wishes</a>, I created a complex data management system so they could track who they help and how. I have also assisted with the charity's website and general IT issues.">
+                    <li data-info='Working for local charity <a href="https://mollyolly.co.uk/" target="_blank">Molly Olly&apos;s Wishes</a>, I created a complex data management system so they could track who they help and how. I have also assisted with the charity&apos;s website and general IT issues.'>
                         <div class="liArrow">&#x27A4;</div>
                         <span class="role">Software Developer</span> - <span class="company">Molly Olly's Wishes</span>
                     </li>
@@ -196,7 +199,12 @@
                     <button class="g-recaptcha" data-sitekey="6LfV7LYpAAAAAH4ERzVaFcV78SPDpO03w8iKBHaZ" data-callback="onSubmit" data-action="submit" id="btnSubmit">Submit</button>
                 </form>
             </div>
+            <a id="aboutLink" href="./about">About this site</a>
         </div>
+        <dialog id="storageDialog">
+            <span id="storageMessage">This website stores your chosen tint color and whether you're using light/dark mode - are you happy with that?</span>
+            <div id="storageButtonsWrapper"><button id="storageYes">Of course!</button><button id="storageNo">No thanks</button></div>
+        </dialog>
     </body>
     <script src="portfolio.js"></script>
     <script src="index.js"></script>
