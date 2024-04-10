@@ -88,8 +88,12 @@
     box-sizing: border-box;
 }
 
+html,
 body {
     overflow-x: hidden;
+}
+
+body {
     font:
         400 22px Dosis,
         Arial,
@@ -147,11 +151,13 @@ a {
     z-index: 1;
     width: 100vw;
     height: 100vh;
+    height: 100svh;
 }
 
 #landing {
     width: 100vw;
     height: 100vh;
+    height: 100svh; /*for safari*/
     background-color: var(--dev-bg);
     overflow: hidden;
     text-align: center;
@@ -178,23 +184,28 @@ a {
 
 /* --- Name --- */
 
+.nameWrapper {
+    white-space: nowrap;
+}
+
 .nameWord,
 .nameFirstLetter {
     font-family: Monthoers, Arial, sans-serif;
-    font-size: 12vw;
+    font-size: max(12vw, 80px);
     color: var(--dev-fg);
     display: inline-block;
     cursor: default;
-    -webkit-user-select: none; /* Safari */
-    -ms-user-select: none; /* IE 10 and IE 11 */
-    user-select: none; /* Standard syntax */
     position: relative;
-    top: 50%;
+    top: 50vh;
+    top: 50svh;
     transform: translateY(-50%);
     opacity: 0;
     transition:
         opacity 0.6s ease 0.5s,
         color 0.6s;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
 }
 
 body.loaded .nameWord,
@@ -489,7 +500,10 @@ button:active {
     left: 100vw;
     top: 0;
     width: 100vw;
-    height: 100vh;
+    /*temporary until gallery section is done*/
+    height: 0vh;
+    height: 0svh;
+    overflow: hidden;
 }
 
 #gallery img {
@@ -520,6 +534,7 @@ button:active {
     position: absolute;
     left: 0;
     top: 100vh;
+    top: 100svh; /*for safari*/
     width: 100vw;
     /*height: 100vh;*/
     background-color: var(--dev-bg);
@@ -772,7 +787,7 @@ h2:has(+ .profileHeaderNote) {
     flex: 0 0 400px;
     align-self: start;
     position: relative;
-    max-width: 400px;
+    max-width: min(400px, 100%);
     border: 2px solid var(--tint);
     border-radius: 20px;
     overflow: hidden;
@@ -942,6 +957,7 @@ h2:has(+ .profileHeaderNote) {
     position: fixed;
     width: 100vw;
     height: 100vh;
+    height: 100dvh;
     top: 0;
     left: 0;
     background-color: var(--dev-bg);
@@ -1039,9 +1055,14 @@ h2:has(+ .profileHeaderNote) {
     }
 }
 
-#allProjectsClose {
-    position: fixed;
+/*#allProjects.showProjects:has(#projectInfo.showInfo) #allProjectsClose {
+    opacity: 0;
+    visibility: hidden;
 }
+#allProjects.showProjects:has(#projectInfo.showInfo) #projectClose {
+    opacity: 1;
+    visibility: visible;
+}*/
 
 .close {
     background-color: transparent;
@@ -1049,10 +1070,11 @@ h2:has(+ .profileHeaderNote) {
     padding: 0;
     box-shadow: none;
     position: absolute;
-    top: 30px;
-    right: 30px;
+    top: 5vw;
+    right: 5vw;
     width: 32px;
     height: 32px;
+    z-index: 20;
     transition:
         transform 0.6s,
         color 0.6s;
@@ -1083,13 +1105,31 @@ h2:has(+ .profileHeaderNote) {
     transform: rotate(-45deg);
 }
 
+@media (min-width: 1100px) {
+    #allProjectsClose {
+        transition:
+            top 0.6s,
+            right 0.6s,
+            transform 0.6s,
+            color 0.6s;
+    }
+
+    #allProjects.showProjects:has(#projectInfo.showInfo) #allProjectsClose {
+        top: calc(10vh + 30px);
+        right: calc(10vw + 30px);
+    }
+}
+
 #projectInfo {
     position: fixed;
     width: 80vw;
     left: 10vw;
     top: 10vh;
+    top: 10dvh;
     z-index: 5;
-    min-height: 80vh;
+    height: 80vh;
+    height: 80dvh;
+    overflow: hidden auto;
     background-color: var(--dev-bg);
     box-shadow: 0 0 3vw -1vw var(--dev-fg);
     padding: 5%;
@@ -1111,6 +1151,7 @@ h2:has(+ .profileHeaderNote) {
     content: "";
     width: 100vw;
     height: 100vh;
+    height: 100dvh;
     position: fixed;
     top: 0;
     left: 0;
@@ -1121,11 +1162,13 @@ h2:has(+ .profileHeaderNote) {
 
 #projectTags {
     float: left;
+    margin-bottom: 10px;
 }
 
 #projectGithub,
 #projectLink {
     display: none;
+    margin-bottom: 10px;
 }
 
 #projectGithub[href],
@@ -1175,6 +1218,7 @@ h2:has(+ .profileHeaderNote) {
     max-width: 100%;
     margin: 0 auto 25px;
     max-height: 40vh;
+    max-height: 40dvh;
     clear: both;
     display: block;
 }
@@ -1245,4 +1289,43 @@ a:has(> i[class*=" fa"]):hover {
 #btnSubmit {
     margin: 20px auto;
     position: static;
+}
+
+/* ------- MEDIA ------- */
+
+@media (pointer: coarse) {
+    #colorPicker .switch-toggle {
+        opacity: 1;
+        visibility: visible;
+        left: 30px;
+        top: 30px;
+        position: fixed;
+    }
+
+    #colorPicker {
+        top: calc(100vh - 86px);
+        top: calc(100dvh - 86px);
+        left: calc(100vw - 86px);
+    }
+
+    #colorPicker #tintLabel {
+        display: none;
+    }
+
+    #galleryPage {
+        position: static;
+    }
+
+    #devPage {
+        padding: 50px 10vw;
+    }
+
+    #back {
+        top: 30px;
+        left: 120px;
+    }
+
+    #mouse {
+        display: none;
+    }
 }

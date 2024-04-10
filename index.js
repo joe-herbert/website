@@ -6,6 +6,7 @@ let lastScrollTop = 0;
 const defaultTintDark = "#753ed6";
 const defaultTintLight = "#955df7";
 let lightMode = false;
+let touchPage = false;
 
 document.addEventListener("DOMContentLoaded", () => {
     let preferredMode = localStorage.getItem("mode");
@@ -15,6 +16,9 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelector(":root").classList.add("light");
     } else if (preferredMode === "dark") {
         document.querySelector(":root").classList.add("dark");
+    }
+    if (window.matchMedia && window.matchMedia("(pointer: coarse)").matches) {
+        touchPage = true;
     }
     setTimeout(() => {
         document.body.classList.add("loaded");
@@ -102,7 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 document.querySelector(":root").classList.add("dark");
                 document.querySelector(":root").classList.remove("light");
             }
-            let tintColor = document.getElementById("tintLabel").value;
+            let tintColor = document.getElementById("tint").value;
             if (!tintColor || tintColor === defaultTintDark || tintColor === defaultTintLight) {
                 tintColor = lightMode ? defaultTintLight : defaultTintDark;
                 document.querySelector(":root").style.setProperty("--tint", tintColor);
@@ -156,13 +160,18 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     });
-
+    /*
     document.getElementById("projectClose").addEventListener("click", () => {
         document.getElementById("projectInfo").classList.remove("showInfo");
     });
-
+    */
     document.getElementById("allProjectsClose").addEventListener("click", () => {
-        document.getElementById("allProjects").classList.remove("showProjects");
+        let projectInfo = document.getElementById("projectInfo");
+        if (projectInfo.classList.contains("showInfo")) {
+            projectInfo.classList.remove("showInfo");
+        } else {
+            document.getElementById("allProjects").classList.remove("showProjects");
+        }
     });
 
     let projectsButton = document.getElementById("projectsButton");
@@ -534,72 +543,47 @@ function getAge() {
 }
 
 document.addEventListener("mousemove", (event) => {
-    let mouse = document.getElementById("mouse");
-    const y = event.pageY;
-    const x = event.pageX;
-    const scrollLeft = window.pageXOffset !== undefined ? window.pageXOffset : (document.documentElement || document.body.parentNode || document.body).scrollLeft;
-    const scrollTop = window.pageYOffset !== undefined ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
-    mouse.style.left = x - scrollLeft + "px";
-    mouse.style.top = y - scrollTop + "px";
+    if (!touchPage) {
+        let mouse = document.getElementById("mouse");
+        const y = event.pageY;
+        const x = event.pageX;
+        const scrollLeft = window.pageXOffset !== undefined ? window.pageXOffset : (document.documentElement || document.body.parentNode || document.body).scrollLeft;
+        const scrollTop = window.pageYOffset !== undefined ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
+        mouse.style.left = x - scrollLeft + "px";
+        mouse.style.top = y - scrollTop + "px";
+    }
 });
 
 let scrolling = false;
 
 document.addEventListener("scroll", () => {
-    let currentScrollTop = window.pageYOffset !== undefined ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
-    if (!scrolling) {
-        let height = pageHeight - 5;
-        if (lastScrollTop === 0) {
-            window.scrollTo({
-                top: pageHeight,
-                left: 0,
-                behavior: "smooth",
-            });
-            onScrollFinish(pageHeight);
-        } else if ((lastScrollTop === height && currentScrollTop < lastScrollTop) || (lastScrollTop >= height && currentScrollTop < height)) {
-            window.scrollTo({
-                top: 0,
-                left: 0,
-                behavior: "smooth",
-            });
-            onScrollFinish(0);
-        } else if (currentScrollTop < height) {
-            if (currentScrollTop < lastScrollTop) {
-                window.scrollTo({
-                    top: 0,
-                    left: 0,
-                    behavior: "smooth",
-                });
-                onScrollFinish(0);
-            } else {
+    if (!touchPage) {
+        let currentScrollTop = window.pageYOffset !== undefined ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
+        if (!scrolling) {
+            let height = pageHeight - 5;
+            if (lastScrollTop === 0) {
                 window.scrollTo({
                     top: pageHeight,
                     left: 0,
                     behavior: "smooth",
                 });
                 onScrollFinish(pageHeight);
-            }
-        }
-    }
-    lastScrollTop = currentScrollTop;
-});
-
-function onScrollFinish(target) {
-    scrolling = true;
-    let position = null;
-    const checkIfScrollIsStatic = setInterval(() => {
-        if (position === window.scrollY) {
-            scrolling = false;
-            if (Math.round(target) !== Math.round(lastScrollTop)) {
-                let currentScrollTop = window.pageYOffset !== undefined ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
-                if (currentScrollTop < lastScrollTop || target === 0) {
+            } else if ((lastScrollTop === height && currentScrollTop < lastScrollTop) || (lastScrollTop >= height && currentScrollTop < height)) {
+                window.scrollTo({
+                    top: 0,
+                    left: 0,
+                    behavior: "smooth",
+                });
+                onScrollFinish(0);
+            } else if (currentScrollTop < height) {
+                if (currentScrollTop < lastScrollTop) {
                     window.scrollTo({
                         top: 0,
                         left: 0,
                         behavior: "smooth",
                     });
                     onScrollFinish(0);
-                } else if (currentScrollTop < pageHeight) {
+                } else {
                     window.scrollTo({
                         top: pageHeight,
                         left: 0,
@@ -607,18 +591,49 @@ function onScrollFinish(target) {
                     });
                     onScrollFinish(pageHeight);
                 }
-                lastScrollTop = currentScrollTop;
             }
-            clearInterval(checkIfScrollIsStatic);
         }
-        position = window.scrollY;
-    }, 50);
-    /*const checkIfScrollToIsFinished = setInterval(() => {
+        lastScrollTop = currentScrollTop;
+    }
+});
+
+function onScrollFinish(target) {
+    if (!touchPage) {
+        scrolling = true;
+        let position = null;
+        const checkIfScrollIsStatic = setInterval(() => {
+            if (position === window.scrollY) {
+                scrolling = false;
+                if (Math.round(target) !== Math.round(lastScrollTop)) {
+                    let currentScrollTop = window.pageYOffset !== undefined ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
+                    if (currentScrollTop < lastScrollTop || target === 0) {
+                        window.scrollTo({
+                            top: 0,
+                            left: 0,
+                            behavior: "smooth",
+                        });
+                        onScrollFinish(0);
+                    } else if (currentScrollTop < pageHeight) {
+                        window.scrollTo({
+                            top: pageHeight,
+                            left: 0,
+                            behavior: "smooth",
+                        });
+                        onScrollFinish(pageHeight);
+                    }
+                    lastScrollTop = currentScrollTop;
+                }
+                clearInterval(checkIfScrollIsStatic);
+            }
+            position = window.scrollY;
+        }, 50);
+        /*const checkIfScrollToIsFinished = setInterval(() => {
         if (Math.round(target) === Math.round(lastScrollTop)) {
             scrolling = false;
             clearInterval(checkIfScrollToIsFinished);
         }
     }, 25);*/
+    }
 }
 
 document.addEventListener("wheel", checkScrollDirection);
@@ -658,17 +673,25 @@ function refreshPageDimensions() {
     pageHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
     let currentScrollTop = window.pageYOffset !== undefined ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
 
-    if (currentPage === "dev" && currentScrollTop < pageHeight) {
-        window.scrollTo({
-            top: pageHeight,
-            left: 0,
-            behavior: "smooth",
-        });
-    } else if (currentPage === "pho") {
-        window.scrollTo({
-            top: currentScrollTop,
-            left: pageWidth,
-            behavior: "smooth",
-        });
+    if (!touchPage) {
+        if (currentPage === "dev" && currentScrollTop < pageHeight) {
+            window.scrollTo({
+                top: pageHeight,
+                left: 0,
+                behavior: "smooth",
+            });
+        } else if (currentPage === "pho") {
+            window.scrollTo({
+                top: currentScrollTop,
+                left: pageWidth,
+                behavior: "smooth",
+            });
+        } else if (currentPage === "landing") {
+            window.scrollTo({
+                top: 0,
+                left: 0,
+                behavior: "smooth",
+            });
+        }
     }
 }
