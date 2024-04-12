@@ -1,15 +1,16 @@
 Add more portfolios
 Add more info when clicking skills/experience etc.
 
+Add all meta tags
+
 Convert xhttp to fetch
+Switch PHP to Node.js
 
-Gallery section
-
-Check how clip path hexagons appear on other browsers
+Add more CSS nesting
 
 Design logo
 Make favicon
 
-Add all meta tags
+Check how clip path hexagons appear on other browsers
 
-Switch PHP to Node.js
+Gallery section
