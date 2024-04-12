@@ -120,12 +120,13 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     document.getElementById("photo").addEventListener("click", () => {
-        window.scrollTo({
+        /*window.scrollTo({
             top: 0,
             left: pageWidth,
             behavior: "smooth",
         });
-        currentPage = "photo";
+        currentPage = "photo";*/
+        document.getElementById("galleryDialog").showModal();
     });
     document.getElementById("dev").addEventListener("click", () => {
         window.scrollTo({

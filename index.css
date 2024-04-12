@@ -528,6 +528,26 @@ button:active {
     margin: 10px;
 }
 
+#galleryDialog {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 400px;
+    transform: translate(-50%, -50%);
+    cursor: default;
+}
+
+#galleryDialog button {
+    display: block;
+    margin: 20px auto 10px;
+    position: static;
+}
+
+#galleryDialog::backdrop {
+    backdrop-filter: blur(10px);
+    background-color: #0008;
+}
+
 /* ------- Gallery ------- */
 
 #galleryPage {
