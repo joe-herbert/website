@@ -355,7 +355,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.querySelectorAll("#gallery img").forEach(() => {});
 
-    document.querySelectorAll("a, .nameFirstLetter, button, #colorPicker #tintLabel, #profilePicture, #divider, .project, .project .github, .project .openLink, .tag, .close, #projectGithub, #projectLink, .allProjectWrapper, .liArrow, .switch-toggle").forEach((element) => {
+    document.querySelectorAll("a, .nameFirstLetter, button, #colorPicker #tintLabel, #profilePicture, #divider, .project, .project .github, .project .openLink, .tag, .close, #projectGithub, #projectLink, .allProjectWrapper, .liArrow, .switch-toggle, #devMouse").forEach((element) => {
         element.classList.add("usesTint");
         if (tintColor !== "rainbow") {
             element.style.setProperty("--tint", tintColor);
@@ -578,8 +578,16 @@ document.addEventListener("mousemove", (event) => {
         const x = event.pageX;
         const scrollLeft = window.pageXOffset !== undefined ? window.pageXOffset : (document.documentElement || document.body.parentNode || document.body).scrollLeft;
         const scrollTop = window.pageYOffset !== undefined ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
-        mouse.style.left = x - scrollLeft + "px";
-        mouse.style.top = y - scrollTop + "px";
+        const mouseX = x - scrollLeft;
+        const mouseY = y - scrollTop;
+        mouse.style.left = mouseX + "px";
+        mouse.style.top = mouseY + "px";
+        let devMouse = document.getElementById("devMouse");
+        const centerX = pageWidth / 2;
+        const centerY = pageHeight / 2;
+        const relativeX = mouseX - centerX;
+        const relativeY = mouseY - centerY;
+        devMouse.style.transform = `translate(-50%, -50%) translate(${relativeX / 3}px, ${relativeY / 3}px)`;
     }
 });
 

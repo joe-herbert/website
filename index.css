@@ -164,13 +164,15 @@ a {
     text-align: center;
     transition: background-color 0.6s;
     cursor: none;
+    position: relative;
+    z-index: 1;
 }
 
 #mouse {
     width: 100px;
     height: 100px;
     display: none;
-    position: fixed;
+    position: absolute;
     transform: translate(-50%, -50%);
     background-color: #fff;
     border-radius: 50%;
@@ -563,6 +565,30 @@ button:active {
 
 /* ------- Software Dev page ------- */
 
+#devBackground {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--dev-bg);
+    z-index: 0;
+
+    & #devMouse {
+        position: absolute;
+        z-index: 1;
+        left: 50%;
+        top: 50%;
+        width: min(50vw, 500px);
+        height: min(50vw, 500px);
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        filter: blur(5vw);
+        background-color: var(--tint);
+        transition: transform 0.3s;
+    }
+}
+
 #devPage {
     position: absolute;
     left: 0;
@@ -571,8 +597,9 @@ button:active {
     width: 100vw;
     /*height: 100vh;*/
     background-color: var(--dev-bg);
+    background-color: color-mix(in srgb, var(--dev-bg) 70%, transparent);
     color: var(--dev-fg);
-    z-index: 3;
+    z-index: 5;
     padding: 30px 10vw;
     overflow-y: auto;
     overflow-x: hidden;
@@ -1107,7 +1134,7 @@ h2:has(+ .profileHeaderNote) {
     right: 5vw;
     width: 32px;
     height: 32px;
-    z-index: 20;
+    z-index: 10;
     transition:
         transform 0.6s,
         color 0.6s;

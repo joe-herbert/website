@@ -11,3 +11,5 @@ Design logo
 Make favicon
 
 Add all meta tags
+
+Switch PHP to Node.js
