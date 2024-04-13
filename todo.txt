@@ -1,9 +1,6 @@
 Add more portfolios
 Add more info when clicking skills/experience etc.
 
-Add all meta tags
-
-Convert xhttp to fetch
 Switch PHP to Node.js
 
 Add more CSS nesting
@@ -14,3 +11,5 @@ Make favicon
 Check how clip path hexagons appear on other browsers
 
 Gallery section
+
+Edit 404 page
