@@ -11,3 +11,5 @@ Make favicon
 Check how clip path hexagons appear on other browsers
 
 Gallery section
+
+Edit 404 page
