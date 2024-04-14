@@ -767,22 +767,12 @@ function onSubmit(token) {
             //handle response from php file
             document.getElementById("btnSubmit").classList.remove("hide");
             document.getElementById("formSpinner").classList.add("hide");
-            /*let pageBottom = false;
-            if (window.innerHeight + window.pageYOffset >= document.body.offsetHeight - 2) {
-                pageBottom = true;
-            }*/
             if (this.responseText == "Success") {
                 document.getElementById("contactFormSuccess").classList.remove("hideFormMessage");
             } else {
                 document.getElementById("contactFormError").classList.remove("hideFormMessage");
                 console.log(this.responseText);
             }
-            /*if (pageBottom) {
-                setTimeout(() => {
-                    window.scrollTo({ top: document.getElementById("devPage").scrollHeight, left: 0, behavior: "smooth" });
-                }, 600);
-            }
-            */
         }
     };
     xhttp.open("POST", "/submitForm.php", true);

@@ -1,9 +1,6 @@
 Add more portfolios
 Add more info when clicking skills/experience etc.
 
-Add all meta tags
-
-Convert xhttp to fetch
 Switch PHP to Node.js
 
 Add more CSS nesting
