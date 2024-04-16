@@ -1057,6 +1057,10 @@ h2:has(+ .profileHeaderNote) {
     visibility: visible;
 }
 
+html:has(#allProjects.showProjects) {
+    overflow-y: hidden;
+}
+
 #allPortfolio {
     margin-top: 0;
 }
@@ -1149,7 +1153,7 @@ h2:has(+ .profileHeaderNote) {
     color: var(--tint);
     padding: 0;
     box-shadow: none;
-    position: absolute;
+    position: fixed;
     top: 5vw;
     right: 5vw;
     width: 32px;
@@ -1197,6 +1201,7 @@ h2:has(+ .profileHeaderNote) {
     #allProjects.showProjects:has(#projectInfo.showInfo) #allProjectsClose {
         top: calc(10vh + 30px);
         right: calc(10vw + 30px);
+        position: absolute;
     }
 }
 
