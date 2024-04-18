@@ -1,0 +1,138 @@
+<!doctype html>
+<html>
+    <head>
+        <title>File Not Found</title>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <style>
+            :root {
+                color-scheme: dark light;
+                --dev-bg: #111;
+                --dev-fg: #fff;
+                --dev-bg: light-dark(#fbfbfb, #111);
+                --dev-fg: light-dark(#000, #fff);
+            }
+            @font-face {
+                font-family: "Dosis";
+                src:
+                    url("assets/fonts/Dosis.woff2") format("woff2"),
+                    url("assets/fonts/Dosis.ttf") format("truetype");
+                font-weight: 1 999;
+            }
+            @font-face {
+                font-family: "EmojiSymbols";
+                src: url(/assets/fonts/EmojiSymbols.woff) format("woff");
+                text-decoration: none;
+                font-style: normal;
+            }
+            html {
+                width: 100%;
+                height: 100%;
+                position: relative;
+            }
+            body {
+                background-color: var(--dev-bg);
+                color: var(--dev-fg);
+                padding: 100px 10px 10px 10px;
+                display: flex;
+                align-items: center;
+                width: 100vw;
+                height: 100vh;
+                box-sizing: border-box;
+                margin: 0;
+            }
+            .wrapper {
+                text-align: center;
+                font-family: Dosis, sans-serif;
+                font-size: 1.5em;
+                margin: auto;
+            }
+            body.light {
+                color-scheme: light;
+            }
+            body.dark {
+                color-scheme: dark;
+            }
+            a {
+                color: var(--dev-fg);
+                text-decoration: none;
+                font-style: italic;
+                transition: color 0.6s;
+            }
+            a:hover {
+                color: var(--tint);
+            }
+            button {
+                position: fixed;
+                top: 30px;
+                left: 30px;
+                display: block;
+                padding: 5px 20px;
+                border: none;
+                color: var(--dev-fg);
+                background-color: var(--tint);
+                font-size: 20px;
+                font-family: "Quicksand", sans-serif;
+                text-transform: uppercase;
+                line-height: 35px;
+                transition:
+                    transform 0.4s,
+                    color 0.4s,
+                    background-color 0.4s,
+                    box-shadow 0.4s;
+                cursor: pointer;
+                letter-spacing: 2px;
+                border-radius: 0;
+                z-index: 3;
+                box-shadow: 0px 0px 15px -5px var(--tint);
+                max-width: 80vw;
+            }
+            button:hover {
+                background-color: var(--dev-fg);
+                color: var(--tint);
+            }
+            button:active {
+                transform: scale(0.95);
+                -webkit-transform: scale(0.95);
+                -moz-transform: scale(0.95);
+                -ms-transform: scale(0.95);
+                -o-transform: scale(0.95);
+            }
+            .emoji {
+                font-family: "EmojiSymbols", sans-serif;
+            }
+        </style>
+    </head>
+    <body>
+        <button id="back"><span class="emoji">🏠</span> Home</button>
+        <div class="wrapper">
+            <h1>File not found (404 error)</h1>
+            <p class="lead">This page doesn't exist. Either I haven't got round to making it yet or I messed up a link somewhere. I'm very sorry.</p>
+            <p class="lead">In the meantime, if you think what you're looking for should be here, please contact me at <a href="mailto:joe@joeherbert.dev?Subject=Website" target="_self">joe@joeherbert.dev</a>, and I'll take a look.</p>
+            <p class="lead">Or to return to the home page, click <a href="https://joeherbert.dev">here</a>.</p>
+        </div>
+    </body>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            let preferredMode = localStorage.getItem("mode");
+            if (preferredMode === "light") {
+                document.body.classList.add("light");
+            } else if (preferredMode === "dark") {
+                document.body.classList.add("dark");
+            }
+            const defaultTintDark = "#753ed6";
+            const defaultTintLight = "#955df7";
+            let tintColor = localStorage.getItem("tint");
+            if (preferredMode === "light" || (!preferredMode && window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches)) {
+                if (tintColor === defaultTintDark) tintColor = defaultTintLight;
+                document.querySelector(":root").style.setProperty("--tint", tintColor || defaultTintLight);
+            } else {
+                if (tintColor === defaultTintLight) tintColor = defaultTintDark;
+                document.querySelector(":root").style.setProperty("--tint", tintColor || defaultTintDark);
+            }
+            document.getElementById("back").addEventListener("click", () => {
+                window.location.href = "https://joeherbert.dev";
+            });
+        });
+    </script>
+</html>

@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.body.classList.add("loaded");
     }, 50);
 
-    particlesJS.load("particles", `assets/particles${lightMode ? "Light" : ""}.json`, function () {
+    particlesJS.load("particles", `assets/config/particles${lightMode ? "Light" : ""}.json`, function () {
         console.log("callback - particles.js config loaded");
     });
 
@@ -754,28 +754,36 @@ function onSubmit(token) {
     //valid so pepare to send message
     document.getElementById("btnSubmit").classList.add("hide");
     document.getElementById("formSpinner").classList.remove("hide");
-    var str = "name=" + form.name.value + "&email=" + form.email.value + "&message=" + form.message.value;
-    //send request to php file which will send the email
-    var xhttp;
-    if (window.XMLHttpRequest) {
-        xhttp = new XMLHttpRequest();
-    } else {
-        xhttp = new ActiveXObject("Microsoft.XMLHTTP");
-    }
-    xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            //handle response from php file
-            document.getElementById("btnSubmit").classList.remove("hide");
-            document.getElementById("formSpinner").classList.add("hide");
-            if (this.responseText == "Success") {
-                document.getElementById("contactFormSuccess").classList.remove("hideFormMessage");
-            } else {
-                document.getElementById("contactFormError").classList.remove("hideFormMessage");
-                console.log(this.responseText);
-            }
+    //send request to server which will send the email
+    postData("https://joeherbert.dev/submitForm/index.js", { name: form.name.value, email: form.email.value, message: form.message.value }).then((data) => {
+        console.log(data);
+        //handle response from php file
+        document.getElementById("btnSubmit").classList.remove("hide");
+        document.getElementById("formSpinner").classList.add("hide");
+        if (this.responseText == "Success") {
+            document.getElementById("contactFormSuccess").classList.remove("hideFormMessage");
+        } else {
+            document.getElementById("contactFormError").classList.remove("hideFormMessage");
+            console.log(this.responseText);
         }
-    };
-    xhttp.open("POST", "/submitForm.php", true);
-    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send(str);
+    });
+}
+
+//from MDN - https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#supplying_request_options
+async function postData(url = "", data = {}) {
+    // Default options are marked with *
+    const response = await fetch(url, {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        mode: "cors", // no-cors, *cors, same-origin
+        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: "same-origin", // include, *same-origin, omit
+        headers: {
+            "Content-Type": "application/json",
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        redirect: "follow", // manual, *follow, error
+        referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+        body: JSON.stringify(data), // body data type must match "Content-Type" header
+    });
+    return response.json(); // parses JSON response into native JavaScript objects
 }
