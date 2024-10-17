@@ -678,6 +678,11 @@ h2:has(+ .profileHeaderNote) {
     margin-bottom: 5px;
 }
 
+.profileHeaderSkills {
+    display: table;
+    margin: 10px auto 10px;
+}
+
 .profileHeaderNote {
     display: table;
     font-size: 18px;

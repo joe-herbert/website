@@ -14,3 +14,5 @@ Check how clip path hexagons appear on other browsers
 Gallery section
 
 Uni modules overflowing
+
+Fix /mow to mow. redirect
