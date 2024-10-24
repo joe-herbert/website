@@ -58,6 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
         tint.value = tintColor;
     }
     tint.addEventListener("input", (event) => {
+        document.getElementById("colorReminder").classList.add("reminderHide");
         let color = event.currentTarget.value;
         document.querySelectorAll(".usesTint").forEach((el) => {
             el.style.setProperty("--tint", color);
@@ -68,6 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
         useStorage("tint", color);
     });
     document.getElementById("tintLabel").addEventListener("click", (event) => {
+        document.getElementById("colorReminder").classList.add("reminderHide");
         if ((event.ctrlKey || event.metaKey) && supportsAtProperty) {
             event.preventDefault();
             document.querySelector(":root").classList.add("rainbow");
@@ -75,6 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
     document.getElementById("tintLabel").addEventListener("contextmenu", (event) => {
+        document.getElementById("colorReminder").classList.add("reminderHide");
         event.preventDefault();
         let tintColor = lightMode ? defaultTintLight : defaultTintDark;
         localStorage.removeItem("tint", tintColor);
@@ -88,6 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return false;
     });
     document.getElementById("lightDarkSwitch").addEventListener("change", (event) => {
+        document.getElementById("colorReminder").classList.add("reminderHide");
         let checked = event.currentTarget.checked;
         setTimeout(() => {
             if (checked) {
@@ -356,7 +360,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.querySelectorAll("#gallery img").forEach(() => {});
 
-    document.querySelectorAll("a, .nameFirstLetter, button, #colorPicker #tintLabel, #profilePicture, #divider, .project, .project .github, .project .openLink, .tag, .close, #projectGithub, #projectLink, .allProjectWrapper, .liArrow, .switch-toggle, #devMouse").forEach((element) => {
+    document.querySelectorAll("a, .nameFirstLetter, button, #colorPicker #tintLabel, #profilePicture, #divider, .project, .project .github, .project .openLink, .tag, .close, #projectGithub, #projectLink, .allProjectWrapper, .liArrow, .switch-toggle, #devMouse, #colorReminder").forEach((element) => {
         element.classList.add("usesTint");
         if (tintColor !== "rainbow") {
             element.style.setProperty("--tint", tintColor);
@@ -364,6 +368,16 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     lastScrollTop = window.pageYOffset !== undefined ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
+
+    setTimeout(() => {
+        let useStorage = localStorage.getItem("useStorage");
+        if (useStorage === null) {
+            document.getElementById("colorReminder").classList.remove("reminderHide");
+        }
+    }, 5000);
+    document.getElementById("colorReminder").addEventListener("click", (event) => {
+        event.currentTarget.classList.add("reminderHide");
+    });
 });
 
 function hideRightInfo(li, rightInfo) {

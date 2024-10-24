@@ -367,6 +367,31 @@ button:active {
 
 /* ------- Color Picker ------- */
 
+#colorReminder {
+    transition:
+        opacity 0.6s,
+        bottom 1.6s;
+    position: fixed;
+    left: 50vw;
+    bottom: 30px;
+    transform: translateX(-50%);
+    max-width: 50vw;
+    border: 2px solid var(--tint);
+    z-index: 10;
+    padding: 12px 25px;
+    border-radius: 50px;
+    background-color: #e3d5fa;
+    background-color: color-mix(in srgb, var(--tint) 10%, var(--dev-bg));
+    color: var(--dev-fg);
+    box-shadow: 0 0 20px -10px;
+    font-size: 20px;
+}
+
+.reminderHide {
+    bottom: 120vh !important;
+    opacity: 0 !important;
+}
+
 #colorPicker {
     z-index: 10;
     position: fixed;
@@ -1429,6 +1454,10 @@ a:has(> i[class*=" fa"]):hover {
     }
 
     #colorPicker #tintLabel {
+        display: none;
+    }
+
+    #colorReminder {
         display: none;
     }
 
