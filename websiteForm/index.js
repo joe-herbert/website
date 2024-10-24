@@ -1,6 +1,7 @@
 const http = require("http");
 const https = require("https");
 const config = require("./config.js");
+const nodemailer
 
 const server = http.createServer(function (request, response) {
     console.log(request.param);
@@ -25,7 +26,10 @@ const server = http.createServer(function (request, response) {
                     });
 
                     resp.on("end", () => {
-                        console.log(JSON.parse(data));
+                        let info = JSON.parse(data);
+                        if (info) {
+                            
+                        }
                         response.writeHead(200, { "Content-Type": "text/plain" });
                         response.end("post received");
                     });
