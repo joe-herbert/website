@@ -755,16 +755,15 @@ function onSubmit(token) {
     document.getElementById("btnSubmit").classList.add("hide");
     document.getElementById("formSpinner").classList.remove("hide");
     //send request to server which will send the email
-    postData("https://joeherbert.dev/submitForm/index.js", { name: form.name.value, email: form.email.value, message: form.message.value }).then((data) => {
-        console.log(data);
+    postData("https://joeherbert.dev/websiteForm/send", { name: form.name.value, email: form.email.value, message: form.message.value }).then((status) => {
+        console.log(status);
         //handle response from php file
         document.getElementById("btnSubmit").classList.remove("hide");
         document.getElementById("formSpinner").classList.add("hide");
-        if (this.responseText == "Success") {
+        if (status === 200) {
             document.getElementById("contactFormSuccess").classList.remove("hideFormMessage");
         } else {
             document.getElementById("contactFormError").classList.remove("hideFormMessage");
-            console.log(this.responseText);
         }
     });
 }
@@ -785,5 +784,5 @@ async function postData(url = "", data = {}) {
         referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
         body: JSON.stringify(data), // body data type must match "Content-Type" header
     });
-    return response.json(); // parses JSON response into native JavaScript objects
+    return response.status; // parses JSON response into native JavaScript objects
 }

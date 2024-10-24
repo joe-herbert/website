@@ -1,48 +1,40 @@
-const http = require("http");
-const https = require("https");
+const express = require("express");
+const app = express();
+app.use(express.json());
+const port = 3000;
 const config = require("./config.js");
-const nodemailer
+const nodemailer = require("nodemailer");
+let transporter = nodemailer.createTransport(`smtps://${encodeURIComponent(config.email)}:${encodeURIComponent(config.password)}@${config.host}`);
 
-const server = http.createServer(function (request, response) {
-    console.log(request.param);
-
-    if (request.method == "POST") {
-        console.log("POST");
-        var body = "";
-        request.on("data", function (data) {
-            body += data;
-            console.log("Partial body: " + body);
+app.post("/websiteForm/send.html", (req, res) => {
+    //get location from ip
+    fetch(
+        "https://api.ip2location.io/?" +
+            new URLSearchParams({
+                key: config.locationApi,
+                ip: req.headers["x-forwarded-for"] || req.socket.remoteAddress,
+            })
+    )
+        .then((response) => {
+            return response.json();
+        })
+        .then((data) => {
+            //send email
+            transporter.sendMail({ from: config.email, to: config.email, subject: "Website Form", text: `Name: ${req.body.name}\nEmail: ${req.body.email}\nMessage: ${req.body.message}\nLocation: ${data.city_name}, ${data.country_code}` }, (err) => {
+                if (err) {
+                    console.error(err);
+                    res.sendStatus(500);
+                } else {
+                    res.sendStatus(200);
+                }
+            });
+        })
+        .catch((err) => {
+            console.error(err);
+            res.sendStatus(500);
         });
-        request.on("end", function () {
-            console.log("Body: " + body);
-            //fetch(`https://api.ip2location.io/?key=${config.locationApi}&ip=${request.headers["x-forwarded-for"] || request.socket.remoteAddress}&format=json`).then((res) => {
-            //    console.dir(res);
-            //});
-            https
-                .get(`https://api.ip2location.io/?key=${config.locationApi}&ip=${request.headers["x-forwarded-for"] || request.socket.remoteAddress}&format=json`, (resp) => {
-                    let data = "";
-                    resp.on("data", (chunk) => {
-                        data += chunk;
-                    });
-
-                    resp.on("end", () => {
-                        let info = JSON.parse(data);
-                        if (info) {
-                            
-                        }
-                        response.writeHead(200, { "Content-Type": "text/plain" });
-                        response.end("post received");
-                    });
-                })
-                .on("error", (err) => {
-                    console.log("Error: " + err.message);
-                });
-        });
-    } else {
-        console.log("GET");
-        response.writeHead(200, { "Content-Type": "text/plain" });
-        response.end("Hi!");
-    }
 });
 
-server.listen();
+app.listen(port, () => {
+    console.log(`Website form app listening on port ${port}`);
+});
