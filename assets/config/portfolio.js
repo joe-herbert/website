@@ -7,7 +7,8 @@ let portfolio = [
         github: "https://github.com/joe-herbert/bestcpctraining",
         link: "https://bestcpctraining.co.uk/",
         tags: ["Node.js", "MySQL", "Pug", "SCSS", "JS"],
-        description: "This website provides information and a booking system for a national truck driver training company. It allows users to check out using PayPal and provides comprehensive course management capabilities for administrators. This was built using Express, Pug and SCSS alongside a MySQL database.",
+        description:
+            "This website provides information and a booking system for a national truck driver training company. It allows users to check out using PayPal and provides comprehensive course management capabilities for administrators. This was built using Express, Pug and SCSS alongside a MySQL database.",
     },
     {
         title: "Molly Olly's Wishes DMS",
@@ -48,7 +49,8 @@ let portfolio = [
         github: "https://github.com/joe-herbert/searchdown",
         link: "https://joe-herbert.github.io/searchdown/example.html",
         tags: ["JS", "Library"],
-        description: "A lightweight JS library to provide a searchable dropdown input field.<br />Allows multiple inputs, providing a predefined array of options, allowing the user to add custom options, and much more.",
+        description:
+            "A lightweight JS library to provide a searchable dropdown input field.<br />Allows multiple inputs, providing a predefined array of options, allowing the user to add custom options, and much more.",
     },
     {
         title: "canvas-cli",
@@ -59,7 +61,8 @@ let portfolio = [
         backgroundStyle: "background-position: left",
         github: "https://github.com/joe-herbert/canvas-cli",
         tags: ["Bash"],
-        description: "A bash script for the Canvas VLE, which is used by many universities to deliver content and manage assignments. This CLI allows you to view upcoming assignments and your current grades, all from the command line.",
+        description:
+            "A bash script for the Canvas VLE, which is used by many universities to deliver content and manage assignments. This CLI allows you to view upcoming assignments and your current grades, all from the command line.",
     },
     {
         title: "My Website",
@@ -68,8 +71,9 @@ let portfolio = [
         iconBackground: "#111",
         github: "https://github.com/joe-herbert/website",
         link: "https://joeherbert.dev",
-        tags: ["HTML", "CSS", "JS", "PHP", "SEO"],
-        description: "I built this website from scratch, using simple HTML, CSS and JS to provide a smooth, fast interface. It is fully responsive, and uses PHP to send an email when the contact form is submitted. It also uses CSS variables to allow the user to change the tint colour across the whole site.",
+        tags: ["HTML", "CSS", "JS", "Node.js", "SEO"],
+        description:
+            "I built this website from scratch, using simple HTML, CSS and JS to provide a smooth, fast interface. It is fully responsive, and uses a small Node.js server running Express to send an email when the contact form is submitted. It also uses CSS variables to allow the user to change the tint colour across the whole site.",
     },
     {
         title: "Lori",
@@ -119,7 +123,8 @@ let portfolio = [
         github: "https://github.com/joe-herbert/sideloads",
         link: "https://sideloads.joeherbert.dev",
         tags: ["JS", "WebExtensions API"],
-        description: "Firefox extension which allows you to view your downloads in the sidebar. It automatically updates, shows download progress and useful file information, and allows you to open the file, delete it from disk or remove it from downloads.",
+        description:
+            "Firefox extension which allows you to view your downloads in the sidebar. It automatically updates, shows download progress and useful file information, and allows you to open the file, delete it from disk or remove it from downloads.",
     },
     {
         title: "Cognosco",
@@ -129,7 +134,8 @@ let portfolio = [
         github: "https://github.com/joe-herbert/cognosco",
         link: "https://cognosco.info/",
         tags: ["Node.js", "MySQL", "Pug", "SCSS", "TypeScript"],
-        description: "A website designed to store knowledge. It shows information which users might like to learn, grouped by category. Users can contribute to existing or new pages and can use custom elements to maintain styles across the site.",
+        description:
+            "A website designed to store knowledge. It shows information which users might like to learn, grouped by category. Users can contribute to existing or new pages and can use custom elements to maintain styles across the site.",
     },
     /*
     {

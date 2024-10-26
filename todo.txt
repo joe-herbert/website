@@ -1,18 +1,11 @@
 Add more portfolios
 Add more info when clicking skills/experience etc.
 
-Switch PHP to Node.js
-Store forms submitted in db
-
 Add more CSS nesting
 
 Design logo
 Make favicon
 
-Check how clip path hexagons appear on other browsers
-
 Gallery section
 
 Uni modules overflowing
-
-Fix /mow to mow. redirect

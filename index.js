@@ -771,7 +771,7 @@ function onSubmit(token) {
     //send request to server which will send the email
     postData("https://joeherbert.dev/websiteForm/send", { name: form.name.value, email: form.email.value, message: form.message.value }).then((status) => {
         console.log(status);
-        //handle response from php file
+        //handle response from server
         document.getElementById("btnSubmit").classList.remove("hide");
         document.getElementById("formSpinner").classList.add("hide");
         if (status === 200) {
