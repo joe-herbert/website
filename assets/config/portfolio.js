@@ -15,6 +15,7 @@ let portfolio = [
         img: "assets/portfolio/mow.png",
         icon: "assets/portfolio/icons/mow.png",
         iconBackground: "#eee",
+        link: "https://mow-demo.joeherbert.dev",
         tags: ["Node.js", "MySQL", "Pug", "SCSS", "JS"],
         description:
             "The largest piece of software I have written, comprised of almost 20,000 lines of code and nearly 100 database fields which store over 7,000 records. This is a system for a local charity to manage the help they provide to children with life-threatening illnesses. I built from scratch both an aesthetically pleasing, responsive front-end interface and a fast, reliable server application to interact with the database. This software is private for security reasons.",
@@ -39,7 +40,7 @@ let portfolio = [
         link: "https://oneflix.joeherbert.dev",
         tags: ["JS", "WebExtensions API"],
         description:
-            "A Chrome and Firefox extension which prevents binging by allowing you to limit the number of Netflix or Disney+ episodes you can watch at a time.<br /><br />Oneflix automatically closes a Netflix or Disney+ tab after watching a specific number of episodes in order to prevent binging. You can set the number of episodes to watch at a time in the popup. You can toggle whether the extension is enabled with the command Shift+Alt+O.",
+            "A Chrome extension which prevents binging by allowing you to limit the number of Netflix, Disney+ or BBC iPlayer episodes you can watch at a time.<br /><br />Oneflix automatically closes a Netflix or Disney+ tab after watching a specific number of episodes in order to prevent binging. You can set the number of episodes to watch at a time in the popup. You can toggle whether the extension is enabled with the command Shift+Alt+O.",
     },
     {
         title: "searchdown",
