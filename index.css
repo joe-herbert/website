@@ -286,6 +286,18 @@ button:active {
     top: 10vw;
 }
 
+.CVWrapper {
+    display: block;
+    margin: 20px 0 50px 0;
+    text-decoration: none;
+    cursor: default;
+}
+
+.CVButton {
+    position: static;
+    margin: 0 auto;
+}
+
 /* --- Arrows --- */
 
 .arrow {
@@ -1231,7 +1243,7 @@ html:has(#allProjects.showProjects) {
     #allProjects.showProjects:has(#projectInfo.showInfo) #allProjectsClose {
         top: calc(10vh + 30px);
         right: calc(10vw + 30px);
-        position: absolute;
+        position: fixed;
     }
 }
 

@@ -61,7 +61,11 @@
                 <input id="lightDarkSwitch" class="switch-input" type="checkbox" />
                 <div class="switch-icon switch-icon--moon">
                     <svg height="32" width="32" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path clip-rule="evenodd" d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 01.818.162z" fill-rule="evenodd"></path>
+                        <path
+                            clip-rule="evenodd"
+                            d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 01.818.162z"
+                            fill-rule="evenodd"
+                        ></path>
                     </svg>
                 </div>
 
@@ -96,9 +100,14 @@
             <button id="back">&#8593; Back</button>
             <h1>About Me</h1>
             <div id="profile">
-                <p>I'm a <span id="age">23</span> year old Software Developer based in Warwick, with a 1st Class BSc in Computer Science and experience as a freelance full-stack web developer. I have a passion for problem solving, which has driven me to create many projects since my first "Hello World!" back in 2014. On this page you'll find some more information about me and my work!</p>
+                <p>
+                    I'm a <span id="age">23</span> year old Software Developer based in Warwick, with a 1st Class BSc in Computer Science and experience as a freelance full-stack web developer. I have
+                    a passion for problem solving, which has driven me to create many projects since my first "Hello World!" back in 2014. On this page you'll find some more information about me and
+                    my work!
+                </p>
                 <img src="assets/images/me.jpg" alt="Profile picture" id="profilePicture" />
             </div>
+            <a href="assets/files/CV.pdf" target="_blank" class="CVWrapper"><button class="CVButton">Download my CV</button></a>
             <h2>Technical Skills</h2>
             <i class="profileHeaderSkills">Web Development</i>
             <div class="profileSection">
@@ -159,7 +168,9 @@
                         <div class="liArrow">&#x27A4;</div>
                         <span class="role">Software Developer</span> - <span class="company">Molly Olly's Wishes</span>
                     </li>
-                    <li data-info="I worked for Edward's Boys, a renowned student theatre company who have received critical acclaim for performances across Europe. I managed and updated their WordPress website, as well as their social media pages. This included editing the WordPress theme, managing plugins and updating content. This role lasted around 18 months alongside my A&#8209;Levels.">
+                    <li
+                        data-info="I worked for Edward's Boys, a renowned student theatre company who have received critical acclaim for performances across Europe. I managed and updated their WordPress website, as well as their social media pages. This included editing the WordPress theme, managing plugins and updating content. This role lasted around 18 months alongside my A&#8209;Levels."
+                    >
                         <div class="liArrow">&#x27A4;</div>
                         <span class="role">Web and Social Media Manager</span> - <span class="company">Edward's Boys</span>
                     </li>
@@ -244,17 +255,29 @@
             <div id="divider"></div>
             <h1>Contact</h1>
             <div id="contact">
-                <a href="https://www.linkedin.com/in/joe-herbert-" target="_blank" title="LinkedIn"><i class="fa-brands fa-linkedin"></i></a><a href="mailto:joe@joeherbert.dev" target="_blank" title="Email"><i class="fa-solid fa-envelope"></i></a><a href="https://t.me/joeherbert" target="_blank" title="Telegram"><i class="fa-brands fa-telegram"></i></a><br />
+                <a href="https://www.linkedin.com/in/joe-herbert-" target="_blank" title="LinkedIn"><i class="fa-brands fa-linkedin"></i></a
+                ><a href="mailto:joe@joeherbert.dev" target="_blank" title="Email"><i class="fa-solid fa-envelope"></i></a
+                ><a href="https://t.me/joeherbert" target="_blank" title="Telegram"><i class="fa-brands fa-telegram"></i></a><br />
                 <span>Get in touch through the form below!</span><br />
                 <form id="contactForm">
                     <label for="nameInput">Your name:</label><br />
                     <input type="text" name="name" id="nameInput" placeholder=" " required /><br />
                     <label for="emailInput">Your email (so I can get in touch with you):</label><br />
-                    <input type="email" name="email" id="emailInput" placeholder=" " oninvalid="this.setCustomValidity('This must be a valid email address')" oninput="this.setCustomValidity('')" required /><br />
+                    <input
+                        type="email"
+                        name="email"
+                        id="emailInput"
+                        placeholder=" "
+                        oninvalid="this.setCustomValidity('This must be a valid email address')"
+                        oninput="this.setCustomValidity('')"
+                        required
+                    /><br />
                     <label for="messageInput">What would you like to say?</label><br />
                     <textarea name="message" id="messageInput" placeholder=" " required></textarea><br />
                     <span id="contactFormSuccess" class="hideFormMessage">Your message was successfully sent! I'll be in touch with you soon.</span>
-                    <span id="contactFormError" class="hideFormMessage">Your message couldn't be sent. Please try again later or email <a href="mailto:joe@joeherbert.dev">joe@joeherbert.dev</a>.</span>
+                    <span id="contactFormError" class="hideFormMessage"
+                        >Your message couldn't be sent. Please try again later or email <a href="mailto:joe@joeherbert.dev">joe@joeherbert.dev</a>.</span
+                    >
                     <div id="formSpinner" class="spinner-square hide">
                         <div class="square-1 square"></div>
                         <div class="square-2 square"></div>
