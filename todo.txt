@@ -9,3 +9,5 @@ Make favicon
 Gallery section
 
 Uni modules overflowing
+
+Tags and X are not using tint in portfolio section
